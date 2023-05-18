@@ -1,0 +1,7 @@
+12	4	note vento
+0	1	note umidita'
+2	3	note pressione
+25	5	note temperatura
+0	1	note precipitazioni
+0	1	note altitudine
+0	1	note massa
