@@ -2631,15 +2631,19 @@ public class ClimateMonitor {
                                                        
                                                    case 9:
                                                        //Modifica data
-                                                       String mod_data = "";
+                                                       Scanner scan9 = new Scanner(System.in);
+                                                       System.out.println("Inserisci la nuova data");
+                                                       String mod_data = scan9.nextLine();
                                                        boolean n_data_valida = false;
                                                        do{
-                                                        System.out.println("Inserisci la nuova data");
-                                                        Scanner scan9 = new Scanner(System.in);
-                                                        mod_data = scan9.nextLine();
+                                                        
+                                                        scan9 = new Scanner(System.in);
                                                         
                                                         if(parametri_climatici.check_data(mod_data)){
                                                            n_data_valida = true; 
+                                                        }else{
+                                                            System.out.println("Data non valida");
+                                                            mod_data = scan9.nextLine();
                                                         }
                                                        
                                                        }while(!n_data_valida);
@@ -2783,380 +2787,389 @@ public class ClimateMonitor {
                     
                 case 6:
                     //Gestione account
+                    boolean admin = false;
+                      
                     boolean token_scelta6 = true;
                     do{
                     
-                        if(cookie){
-                        Scanner scan8 = new Scanner(System.in);
-                        
-                        String sceltaacc;
-                        
-                        boolean scelta_valida2 = false;
-                        
-                        
-                        
-                        
-                        do{
-                        System.out.println("Cosa vuoi fare con il tuo account?");
-                           System.out.println("1. Aggiungi un centro di monitoraggio");
-                           System.out.println("2. Modifica i dati");
-                           System.out.println("3. Elimina il tuo account");
-                           System.out.println("4. Indietro");
-                           
-                           sceltaacc = scan8.nextLine();
-                           
-                           if(!account.isNumeric(sceltaacc)){
-                               System.out.println("Devi inserire un numero!");
-                           }else{
-                               scelta_valida2 = true;
-                           }
-                           
-                        }while(!scelta_valida2);
-                           
-                           switch(Integer.valueOf(sceltaacc)){
-                               
-                               default:
-                                   System.out.println("Scelta invalida! Digita il numero corrispondente all'opzione che vuoi selezionare e premi invio");
-                                   break;
-                               
-                               case 1:
-                                   
-                                   String nuovo = "";
-                                       File centri = new File("CentroMonitoraggio.dati");
-                                       if(Files.readAllBytes(centri.toPath()).length == 0){
-                                           System.out.println("Nel programma non e' inserito nessun centro di monitoraggio");
+                        if(cookie & !admin){
+                            
+                            File c = new File("cookie.txt");
+                            String adminlog = Files.readString(c.toPath());
+                            
+                            if(adminlog.equals("admin")){
+                                admin = true;
+                                System.out.println("Non puoi modificare o eliminare l'account admin");
+                            }else{
+                            
+                                Scanner scan8 = new Scanner(System.in);
+                            String sceltaacc;
+                            boolean scelta_valida2 = false;
+
+
+
+
+                                do{
+                                System.out.println("Cosa vuoi fare con il tuo account?");
+                                   System.out.println("1. Aggiungi un centro di monitoraggio");
+                                   System.out.println("2. Modifica i dati");
+                                   System.out.println("3. Elimina il tuo account");
+                                   System.out.println("4. Indietro");
+
+                                   sceltaacc = scan8.nextLine();
+
+                                   if(!account.isNumeric(sceltaacc)){
+                                       System.out.println("Devi inserire un numero!");
+                                   }else{
+                                       scelta_valida2 = true;
+                                   }
+
+                                }while(!scelta_valida2);
+
+                                   switch(Integer.valueOf(sceltaacc)){
+
+                                       default:
+                                           System.out.println("Scelta invalida! Digita il numero corrispondente all'opzione che vuoi selezionare e premi invio");
                                            break;
-                                        }else{
-                                            File t = new File("cookie.txt");
-                                            Scanner scan9 = new Scanner(System.in);
-                                            String username = Files.readString(t.toPath());
-                                            
-                                            boolean input_valido8 = false;
-                                            String nome_centro;
-                                            String indirizzo_centro;
-                                            
-                                            do{
-                                                System.out.println("Inserisci il nome del centro di monitoraggio");
-                                                nome_centro = scan9.nextLine();
 
-                                                System.out.println("Inserisci l'indirizzo del centro di monitoraggio");
-                                                indirizzo_centro = scan9.nextLine();
+                                       case 1:
 
-                                                if(nome_centro.contains("\t") | indirizzo_centro.contains("\t") | nome_centro.contains("-----") | indirizzo_centro.contains("-----")){
-                                                    System.out.println("Il nome o l'indirizzo non possono contenere tab o i 5 trattini '-----'");
+                                           String nuovo = "";
+                                               File centri = new File("CentroMonitoraggio.dati");
+                                               if(Files.readAllBytes(centri.toPath()).length == 0){
+                                                   System.out.println("Nel programma non e' inserito nessun centro di monitoraggio");
+                                                   break;
                                                 }else{
-                                                    input_valido8 = true;
-                                                }
-                                            }while(!input_valido8);
-                                            
-                                            //Vede se il centro inserito esiste
-                                            Scanner scancentri = new Scanner(centri);
-                                            boolean esiste = false;
-                                            while(scancentri.hasNextLine()){
-                                                String riga = scancentri.nextLine();
-                                                //System.out.println(riga);
-                                                String[] dati = riga.split("\t");
-                                                //System.out.println(dati[0] + " e' uguale a " + nome_centro + " e " + dati[1] + " e' uguale a " + indirizzo_centro + " ?");
-                                                if(dati[0].equals(nome_centro) & dati[1].equals(indirizzo_centro) ){
-                                                    //System.out.println("e' uguale !");
-                                                    esiste = true;
-                                                }
-                                            }
-                                            
-                                            if(esiste){
-                                                                                            
-                                                File operatori = new File("OperatoriRegistrati.dati");
-                                                Scanner scanop = new Scanner(operatori);
-                                                
-                                                while(scanop.hasNextLine()){
-                                                    String riga = scanop.nextLine();
-                                                    String[] dati = riga.split("\t");
-                                                    
-                                                    //System.out.println(dati.length + " > 6 ?");
-                                                    if(dati.length >= 6){
-                                                        System.out.println("Sei gia' parte del centro di monitoraggio : "  + dati[5] + " non puoi far parte di piu' centri di monitoraggio");
-                                                        break;
-                                                        
-                                                    }else{
-                                                        if(dati[3].equals(username)){
-                                                            String[] dati2 = riga.split("\t");
-                                                            boolean inserito = false;
-                                                            for(int i=0;i<dati2.length; i++){
-                                                                if(dati2[i].equals(nome_centro)){
-                                                                    inserito = true;
+                                                    File t = new File("cookie.txt");
+                                                    Scanner scan9 = new Scanner(System.in);
+                                                    String username = Files.readString(t.toPath());
+
+                                                    boolean input_valido8 = false;
+                                                    String nome_centro;
+                                                    String indirizzo_centro;
+
+                                                    do{
+                                                        System.out.println("Inserisci il nome del centro di monitoraggio");
+                                                        nome_centro = scan9.nextLine();
+
+                                                        System.out.println("Inserisci l'indirizzo del centro di monitoraggio");
+                                                        indirizzo_centro = scan9.nextLine();
+
+                                                        if(nome_centro.contains("\t") | indirizzo_centro.contains("\t") | nome_centro.contains("-----") | indirizzo_centro.contains("-----")){
+                                                            System.out.println("Il nome o l'indirizzo non possono contenere tab o i 5 trattini '-----'");
+                                                        }else{
+                                                            input_valido8 = true;
+                                                        }
+                                                    }while(!input_valido8);
+
+                                                    //Vede se il centro inserito esiste
+                                                    Scanner scancentri = new Scanner(centri);
+                                                    boolean esiste = false;
+                                                    while(scancentri.hasNextLine()){
+                                                        String riga = scancentri.nextLine();
+                                                        //System.out.println(riga);
+                                                        String[] dati = riga.split("\t");
+                                                        //System.out.println(dati[0] + " e' uguale a " + nome_centro + " e " + dati[1] + " e' uguale a " + indirizzo_centro + " ?");
+                                                        if(dati[0].equals(nome_centro) & dati[1].equals(indirizzo_centro) ){
+                                                            //System.out.println("e' uguale !");
+                                                            esiste = true;
+                                                        }
+                                                    }
+
+                                                    if(esiste){
+
+                                                        File operatori = new File("OperatoriRegistrati.dati");
+                                                        Scanner scanop = new Scanner(operatori);
+
+                                                        while(scanop.hasNextLine()){
+                                                            String riga = scanop.nextLine();
+                                                            String[] dati = riga.split("\t");
+
+                                                            //System.out.println(dati.length + " > 6 ?");
+                                                            if(dati.length >= 6){
+                                                                System.out.println("Sei gia' parte del centro di monitoraggio : "  + dati[5] + " non puoi far parte di piu' centri di monitoraggio");
+                                                                break;
+
+                                                            }else{
+                                                                if(dati[3].equals(username)){
+                                                                    String[] dati2 = riga.split("\t");
+                                                                    boolean inserito = false;
+                                                                    for(int i=0;i<dati2.length; i++){
+                                                                        if(dati2[i].equals(nome_centro)){
+                                                                            inserito = true;
+                                                                            break;
+                                                                        }
+                                                                    }
+                                                                    if(inserito){
+                                                                        System.out.println("Centro gia' inserito in questo centro");
+                                                                    }else{
+                                                                       nuovo = riga+"\t"+nome_centro;
+                                                                    }
+
                                                                     break;
                                                                 }
-                                                            }
-                                                            if(inserito){
-                                                                System.out.println("Centro gia' inserito in questo centro");
-                                                            }else{
-                                                               nuovo = riga+"\t"+nome_centro;
-                                                            }
 
-                                                            break;
+                                                            }
+                                                            //System.out.println("risultato: " + nuovo);
+
+                                                            account.gestione_account(nuovo, 1);
+                                                            }
+                                                        }else{
+                                                        System.out.println("Il centro inserito non esiste");
+
+                                                    }
+
+                                               }    
+
+
+                                           break;
+                                       case 2:
+                                           boolean token_scelta46 = true;
+                                           File t2 = new File("cookie.txt");
+                                           String username2 = Files.readString(t2.toPath());
+                                           File operatori = new File("OperatoriRegistrati.dati");
+                                           Scanner scanop = new Scanner(operatori);
+                                           String riga_da_sostituire = "";
+                                           while(scanop.hasNextLine()){
+                                               String riga = scanop.nextLine();
+                                               String[] dati = riga.split("\t");
+                                               if(dati[3].equals(username2)){
+                                                   riga_da_sostituire = riga;
+                                                   break;
+                                               }
+                                           }
+                                           String[] campi = riga_da_sostituire.split("\t");
+                                           do{
+
+                                                System.out.println("Quale dati del tuo account vuoi modificare?");
+                                                System.out.println("1. Nome e Cognome");
+                                                System.out.println("2. Codice fiscale");
+                                                System.out.println("3. Email");
+                                                System.out.println("4. Userid (Se lo cambi dovrai effettuare di nuovo l'accesso!)");
+                                                System.out.println("5. Password");
+                                                System.out.println("6. Centro di appartenenza");
+                                                System.out.println("7. Indietro");
+                                                Scanner scan2 = new Scanner(System.in);
+                                                Scanner scan3 = new Scanner(System.in);
+                                                int sceltama = scan2.nextInt();
+                                                File operatori2 = new File("OperatoriRegistrati.dati");
+                                                Scanner scanop2 = new Scanner(operatori2);
+
+                                                switch(sceltama){
+                                                    case 1:
+                                                        System.out.println("Inserisci il nuovo nome e il nuovo cognome");
+                                                        String nnome_cognome = scan3.nextLine();
+                                                        String[] l = nnome_cognome.split(" ");
+
+                                                        if(nnome_cognome.contains("\t") | nnome_cognome.contains("-----") | l.length < 2){
+                                                            System.out.println("Il nome e il cognome non possono contenere tab o i 5 trattini '-----' e deve essere il nome completo");
+                                                        }else{
+                                                            String nuovo2 = "";
+                                                            if(campi.length >= 6){
+                                                                nuovo2 = nnome_cognome+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
+                                                            }else{
+                                                                nuovo2 = nnome_cognome+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4];
+                                                            }
+                                                            account.gestione_account(nuovo2, 2);
+                                                            campi[0] = nnome_cognome;
                                                         }
 
-                                                    }
-                                                    //System.out.println("risultato: " + nuovo);
-
-                                                    account.gestione_account(nuovo, 1);
-                                                    }
-                                                }else{
-                                                System.out.println("Il centro inserito non esiste");
-                                                
-                                            }
-                                            
-                                       }    
-                                   
-                                   
-                                   break;
-                               case 2:
-                                   boolean token_scelta46 = true;
-                                   File t2 = new File("cookie.txt");
-                                   String username2 = Files.readString(t2.toPath());
-                                   File operatori = new File("OperatoriRegistrati.dati");
-                                   Scanner scanop = new Scanner(operatori);
-                                   String riga_da_sostituire = "";
-                                   while(scanop.hasNextLine()){
-                                       String riga = scanop.nextLine();
-                                       String[] dati = riga.split("\t");
-                                       if(dati[3].equals(username2)){
-                                           riga_da_sostituire = riga;
-                                           break;
-                                       }
-                                   }
-                                   String[] campi = riga_da_sostituire.split("\t");
-                                   do{
-                                        
-                                        System.out.println("Quale dati del tuo account vuoi modificare?");
-                                        System.out.println("1. Nome e Cognome");
-                                        System.out.println("2. Codice fiscale");
-                                        System.out.println("3. Email");
-                                        System.out.println("4. Userid (Se lo cambi dovrai effettuare di nuovo l'accesso!)");
-                                        System.out.println("5. Password");
-                                        System.out.println("6. Centro di appartenenza");
-                                        System.out.println("7. Indietro");
-                                        Scanner scan2 = new Scanner(System.in);
-                                        Scanner scan3 = new Scanner(System.in);
-                                        int sceltama = scan2.nextInt();
-                                        File operatori2 = new File("OperatoriRegistrati.dati");
-                                        Scanner scanop2 = new Scanner(operatori2);
-
-                                        switch(sceltama){
-                                            case 1:
-                                                System.out.println("Inserisci il nuovo nome e il nuovo cognome");
-                                                String nnome_cognome = scan3.nextLine();
-                                                
-                                                if(nnome_cognome.contains("\t") | nnome_cognome.contains("-----")){
-                                                    System.out.println("Il nome e il cognome non possono contenere tab o i 5 trattini '-----'");
-                                                }else{
-                                                    String nuovo2 = "";
-                                                    if(campi.length >= 6){
-                                                        nuovo2 = nnome_cognome+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
-                                                    }else{
-                                                        nuovo2 = nnome_cognome+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4];
-                                                    }
-                                                    account.gestione_account(nuovo2, 2);
-                                                    campi[0] = nnome_cognome;
-                                                }
-                                                
-                                                break;
-                                            case 2:
-                                                boolean check_cf = true;
-                                                String ncf = "";
-                                                do{
-                                                     System.out.println("Inserisci il tuo codice fiscale");
-                                                     ncf = scan3.nextLine().toUpperCase();
-                                                     check_cf = !account.convalida_cofice_fiscale(ncf);
-                                                     if(ncf.contains("-----")){
-                                                         System.out.println("Il codice fiscale non puo' contenere i 5 trattini '-----'");
-                                                     }
-                                                }while(check_cf & !ncf.contains("-----"));
-                                                boolean trovato = false;
-                                                while(scanop2.hasNextLine()){
-                                                    String riga = scanop2.nextLine();
-                                                    String[] dati = riga.split("\t");
-                                                    if(!dati[3].equals(username2) & dati[1].equals(ncf)){
-                                                        trovato = true;
-                                                        System.out.println("Il codice fiscale inserito e' gia' associato ad un altro account");
                                                         break;
-                                                    }
-                                                }
-                                                
-                                                if(!trovato){
-                                                    String nuovo3 = "";
-                                                    if(campi.length >= 6){
-                                                        nuovo3 = campi[0]+"\t"+ncf+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
-                                                    }else{
-                                                        nuovo3 = campi[0]+"\t"+ncf+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4];
-                                                    }
-                                                    account.gestione_account(nuovo3, 2);
-                                                    campi[1] = ncf; 
-                                                }
-                                                
-                                                
-                                                break;
-                                            case 3:
-                                                boolean check_m = true;
-                                                String nmail = "";
-                                                do{
-                                                     System.out.println("Inserisci la nuova mail");
-                                                     nmail = scan3.nextLine();
-                                                     check_m = !account.convalida_mail(nmail);
-                                                     
-                                                     if(nmail.contains("-----")){
-                                                         System.out.println("L'email non puo' contenere i 5 trattini '-----'");
-                                                     }
-                                                     
-                                                }while(check_m & !nmail.contains("-----"));
-                                                
-                                                boolean trovato2 = false;
-                                                while(scanop2.hasNextLine()){
-                                                    String riga = scanop2.nextLine();
-                                                    String[] dati = riga.split("\t");
-                                                    if(!dati[3].equals(username2) & dati[2].equals(nmail)){
-                                                        trovato2 = true;
-                                                        System.out.println("L'email inserita e' gia' associata ad un altro account");
-                                                        break;
-                                                    }
-                                                }
-                                                
-                                                if(!trovato2){
-                                                    String nuovo4 = "";
-                                                    if(campi.length >= 6){
-                                                        nuovo4 = campi[0]+"\t"+campi[1]+"\t"+nmail+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
-                                                    }else{
-                                                        nuovo4 = campi[0]+"\t"+campi[1]+"\t"+nmail+"\t"+campi[3]+"\t"+campi[4]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4];
-                                                    }
-                                                    account.gestione_account(nuovo4, 2);
-                                                    campi[2] = nmail; 
-                                                }
-                                                
-                                                
-                                                break;
-                                            case 4:
-                                                System.out.println("Inserisci il nuovo userid");
-                                                String nuserid = scan3.nextLine();
-                                                String nuovo5 = "";
-                                                
-                                                if(nuserid.contains("-----")){
-                                                    System.out.println("L'userid non puo' contenere i 5 trattini '-----'");
-                                                }else{
-                                                        boolean trovato3 = false;
+                                                    case 2:
+                                                        boolean check_cf = true;
+                                                        String ncf = "";
+                                                        do{
+                                                             System.out.println("Inserisci il tuo codice fiscale");
+                                                             ncf = scan3.nextLine().toUpperCase();
+                                                             check_cf = !account.convalida_cofice_fiscale(ncf);
+                                                             if(ncf.contains("-----")){
+                                                                 System.out.println("Il codice fiscale non puo' contenere i 5 trattini '-----'");
+                                                             }
+                                                        }while(check_cf & !ncf.contains("-----"));
+                                                        boolean trovato = false;
                                                         while(scanop2.hasNextLine()){
                                                             String riga = scanop2.nextLine();
                                                             String[] dati = riga.split("\t");
-                                                            if(dati[3].equals(nuserid)){
-                                                                trovato3 = true;
-                                                                System.out.println("L'userid inserito e' gia' associato ad un altro account");
+                                                            if(!dati[3].equals(username2) & dati[1].equals(ncf)){
+                                                                trovato = true;
+                                                                System.out.println("Il codice fiscale inserito e' gia' associato ad un altro account");
                                                                 break;
                                                             }
                                                         }
 
-                                                        if(!trovato3){
+                                                        if(!trovato){
+                                                            String nuovo3 = "";
                                                             if(campi.length >= 6){
-                                                                nuovo5 = campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+nuserid+"\t"+campi[4]+"\t"+campi[5]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
+                                                                nuovo3 = campi[0]+"\t"+ncf+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
                                                             }else{
-                                                                nuovo5 = campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+nuserid+"\t"+campi[4]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4];
+                                                                nuovo3 = campi[0]+"\t"+ncf+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4];
                                                             }
-                                                            account.gestione_account(nuovo5, 2);
-                                                            campi[3] = nuserid;
-                                                            cookie = false;
-                                                            token_scelta46 = false;
-                                                            token_scelta3 = false;
-                                                        } 
-                                                }
-                                                break;
-                                            case 5:
-                                                System.out.println("Inserisci la nuova password");
-                                                String npassword = scan3.nextLine();
-                                                
-                                                if(npassword.contains("-----")){
-                                                    System.out.println("La password non puo' contenere i 5 trattini '-----'");
-                                                }else{
-                                                
-                                                    String nuovo6 = "";
-                                                
-                                                    if(campi.length >= 6){
-                                                        nuovo6 = campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+npassword+"\t"+campi[5]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
-                                                    }else{
-                                                        nuovo6 = campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+npassword+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4];
-                                                    }
-                                                    account.gestione_account(nuovo6, 2);
-                                                    campi[4] = npassword;  
-                                                
-                                                }
-                                                
-                                                break;
-                                            case 6:
-                                                String nuovo7 = "";
-                                                if(campi.length >= 6){
-                                                    //Inserire nome e via del centro
-                                                    System.out.println("Inserire il nome del nuovo centro");
-                                                    String nnome_centro = scan3.nextLine();
-                                                    System.out.println("Inserisci l'indirizzo del nuovo centro");
-                                                    Scanner scan5 = new Scanner(System.in);
-                                                    String nindirizzo_centro = scan5.nextLine();
-                                                    
-                                                    if(nnome_centro.contains("-----") | nindirizzo_centro.contains("-----")){
-                                                        System.out.println("Il nome e l'indirizzo del nuovo centro non possono contenere i 5 trattini '-----");
-                                                    }else{
-                                                    
-                                                            File centri2 = new File("CentroMonitoraggio.dati");
-                                                        Scanner scancentri2 = new Scanner(centri2);
+                                                            account.gestione_account(nuovo3, 2);
+                                                            campi[1] = ncf; 
+                                                        }
 
-                                                        //Vedere se esiste
-                                                        boolean esiste = false;
-                                                        while(scancentri2.hasNextLine()){
-                                                            String riga = scancentri2.nextLine();
+
+                                                        break;
+                                                    case 3:
+                                                        boolean check_m = true;
+                                                        String nmail = "";
+                                                        do{
+                                                             System.out.println("Inserisci la nuova mail");
+                                                             nmail = scan3.nextLine();
+                                                             check_m = !account.convalida_mail(nmail);
+
+                                                             if(nmail.contains("-----")){
+                                                                 System.out.println("L'email non puo' contenere i 5 trattini '-----'");
+                                                             }
+
+                                                        }while(check_m & !nmail.contains("-----"));
+
+                                                        boolean trovato2 = false;
+                                                        while(scanop2.hasNextLine()){
+                                                            String riga = scanop2.nextLine();
                                                             String[] dati = riga.split("\t");
-                                                            if(dati[0].equals(nnome_centro) & dati[1].equals(nindirizzo_centro)){
-                                                                esiste = true;
+                                                            if(!dati[3].equals(username2) & dati[2].equals(nmail)){
+                                                                trovato2 = true;
+                                                                System.out.println("L'email inserita e' gia' associata ad un altro account");
+                                                                break;
                                                             }
                                                         }
 
-
-
-                                                        //Vedere se non e' già inserito
-
-                                                        if(!nnome_centro.equals(campi[5]) & esiste){
-                                                            nuovo7 = campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+nnome_centro+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
-                                                            account.gestione_account(nuovo7, 2);
-                                                            campi[5] = nnome_centro;
+                                                        if(!trovato2){
+                                                            String nuovo4 = "";
+                                                            if(campi.length >= 6){
+                                                                nuovo4 = campi[0]+"\t"+campi[1]+"\t"+nmail+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
+                                                            }else{
+                                                                nuovo4 = campi[0]+"\t"+campi[1]+"\t"+nmail+"\t"+campi[3]+"\t"+campi[4]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4];
+                                                            }
+                                                            account.gestione_account(nuovo4, 2);
+                                                            campi[2] = nmail; 
                                                         }
-                                                        
-                                                    }
-                                                    
-                                                    //Se le condizione vengono soddisfatte inserirlo nella maxi stringa
-                                                }else{
-                                                    System.out.println("Non c'è nessun centro di appartenenza da modificare");
+
+
+                                                        break;
+                                                    case 4:
+                                                        System.out.println("Inserisci il nuovo userid");
+                                                        String nuserid = scan3.nextLine();
+                                                        String nuovo5 = "";
+
+                                                        if(nuserid.contains("-----")){
+                                                            System.out.println("L'userid non puo' contenere i 5 trattini '-----'");
+                                                        }else{
+                                                                boolean trovato3 = false;
+                                                                while(scanop2.hasNextLine()){
+                                                                    String riga = scanop2.nextLine();
+                                                                    String[] dati = riga.split("\t");
+                                                                    if(dati[3].equals(nuserid)){
+                                                                        trovato3 = true;
+                                                                        System.out.println("L'userid inserito e' gia' associato ad un altro account");
+                                                                        break;
+                                                                    }
+                                                                }
+
+                                                                if(!trovato3){
+                                                                    if(campi.length >= 6){
+                                                                        nuovo5 = campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+nuserid+"\t"+campi[4]+"\t"+campi[5]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
+                                                                    }else{
+                                                                        nuovo5 = campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+nuserid+"\t"+campi[4]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4];
+                                                                    }
+                                                                    account.gestione_account(nuovo5, 2);
+                                                                    campi[3] = nuserid;
+                                                                    cookie = false;
+                                                                    token_scelta46 = false;
+                                                                    token_scelta3 = false;
+                                                                } 
+                                                        }
+                                                        break;
+                                                    case 5:
+                                                        System.out.println("Inserisci la nuova password");
+                                                        String npassword = scan3.nextLine();
+
+                                                        if(npassword.contains("-----")){
+                                                            System.out.println("La password non puo' contenere i 5 trattini '-----'");
+                                                        }else{
+
+                                                            String nuovo6 = "";
+
+                                                            if(campi.length >= 6){
+                                                                nuovo6 = campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+npassword+"\t"+campi[5]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
+                                                            }else{
+                                                                nuovo6 = campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+npassword+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4];
+                                                            }
+                                                            account.gestione_account(nuovo6, 2);
+                                                            campi[4] = npassword;  
+
+                                                        }
+
+                                                        break;
+                                                    case 6:
+                                                        String nuovo7 = "";
+                                                        if(campi.length >= 6){
+                                                            //Inserire nome e via del centro
+                                                            System.out.println("Inserire il nome del nuovo centro");
+                                                            String nnome_centro = scan3.nextLine();
+                                                            System.out.println("Inserisci l'indirizzo del nuovo centro");
+                                                            Scanner scan5 = new Scanner(System.in);
+                                                            String nindirizzo_centro = scan5.nextLine();
+
+                                                            if(nnome_centro.contains("-----") | nindirizzo_centro.contains("-----")){
+                                                                System.out.println("Il nome e l'indirizzo del nuovo centro non possono contenere i 5 trattini '-----");
+                                                            }else{
+
+                                                                    File centri2 = new File("CentroMonitoraggio.dati");
+                                                                Scanner scancentri2 = new Scanner(centri2);
+
+                                                                //Vedere se esiste
+                                                                boolean esiste = false;
+                                                                while(scancentri2.hasNextLine()){
+                                                                    String riga = scancentri2.nextLine();
+                                                                    String[] dati = riga.split("\t");
+                                                                    if(dati[0].equals(nnome_centro) & dati[1].equals(nindirizzo_centro)){
+                                                                        esiste = true;
+                                                                    }
+                                                                }
+
+
+
+                                                                //Vedere se non e' già inserito
+
+                                                                if(!nnome_centro.equals(campi[5]) & esiste){
+                                                                    nuovo7 = campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+nnome_centro+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
+                                                                    account.gestione_account(nuovo7, 2);
+                                                                    campi[5] = nnome_centro;
+                                                                }
+
+                                                            }
+
+                                                            //Se le condizione vengono soddisfatte inserirlo nella maxi stringa
+                                                        }else{
+                                                            System.out.println("Non c'è nessun centro di appartenenza da modificare");
+                                                        }
+                                                        break;
+                                                    case 7:
+                                                        token_scelta46 = false;
+                                                        break;
                                                 }
-                                                break;
-                                            case 7:
-                                                token_scelta46 = false;
-                                                break;
-                                        }
-                                   }while(token_scelta46);
-                                   break;
-                               case 3:
-                                   File t = new File("cookie.txt");
-                                   
-                                   String username = Files.readString(t.toPath());
-                                   account.gestione_account(username, 3);
-                                   Files.delete(t.toPath());
-                                   cookie = false;
-                                   token_scelta6 = false;
-                                   
-                                   break;
-                               case 4:
-                                   token_scelta6 = false;
-                                   break;
-                           }
-                        
-                        
-                        
-                        
-                    }else{
+                                           }while(token_scelta46);
+                                           break;
+                                       case 3:
+                                           File t = new File("cookie.txt");
+
+                                           String username = Files.readString(t.toPath());
+                                           account.gestione_account(username, 3);
+                                           Files.delete(t.toPath());
+                                           cookie = false;
+                                           token_scelta6 = false;
+
+                                           break;
+                                       case 4:
+                                           token_scelta6 = false;
+                                           break;
+                                   }
+                            
+                            }
+                            
+                        }else{
                             System.out.println("Non hai effettuato l'accesso");
                             boolean esito3 = false;
                             while(!esito3){
@@ -3207,7 +3220,7 @@ public class ClimateMonitor {
                         Files.delete(t.toPath());
                         Files.delete(t2.toPath());
                     }catch(Exception e){
-                        System.out.println(e);
+                        //System.out.println(e);
                        //Significa solo che il file temp.txt o cookie.txt non sono stati creati perchè non servivano per la sessione corrente
                     }
                     System.out.println("Arrivederci");
@@ -3223,646 +3236,7 @@ public class ClimateMonitor {
                     
         
         }
-        
-        
-        /*
 
-               case 5:
-                   token_scelta = true;
-                   do{
-                       
-                       System.out.println("1. Gestisci i parametri climatici su delle aree\n2. Indietro");
-                       input_utente = scan12.nextInt();
-                       
-                       switch(input_utente){
-                           case 1:
-                               if(cookie){
-                                   //Menu
-                                   boolean token_scelta2 = true;
-                                   do{
-                                        System.out.println("1. Aggiungi informazioni su un area");
-                                        System.out.println("2. Modifica informazioni gia' inserite su un area");
-                                        System.out.println("3. Elimina tutte le informazioni su un area");
-                                        System.out.println("4. Indietro");
-                                        ParametriClimatici pc = new ParametriClimatici();
-
-                                        int scelta = scan48.nextInt();
-
-                                        switch(scelta){
-                                            case 1:
-                                                System.out.println("Inserisci il Geoname ID dell'area di cui vuoi inserire le informazioni");
-                                                String geonameidarea = scan49.nextLine();
-                                                System.out.println("Inserisci la data a cui fanno riferimento le informazioni formato giorno/mese/anno");
-                                                String datainformazioni = scan50.nextLine();
-                                                File aree = new File("CoordinateMonitoraggio.dati");
-                                                Scanner scanaree = new Scanner(aree);
-                                                scanaree.nextLine();
-                                                boolean esiste = false;
-                                                while(scanaree.hasNextLine()){
-                                                    String riga = scanaree.nextLine();
-                                                    String [] dati = riga.split("\t");
-                                                    if(dati[0].equals(geonameidarea)){
-                                                        esiste = true;
-                                                        break;
-                                                    }
-                                                }
-                                                
-                                                if(esiste){
-                                                    //Vento
-                                                    System.out.println("Inserisci la velocità del vento in Km/h");
-                                                    String vel_vento = scan51.nextLine();
-                                                    System.out.println("Inseriscil un punteggio da 1 a 5 per la velocità del vento");
-                                                    String vel_vento_punteggio = scan52.nextLine();
-                                                    System.out.println("Inserisci note sulla velocita' del vento (Singola riga, max 256 caratteri)");
-                                                    String commenti_vento = scan53.nextLine();
-                                                    
-                                                    String vento = vel_vento+"\t"+vel_vento_punteggio+"\t"+commenti_vento;
-                                                    
-                                                    //Umidità
-                                                    System.out.println("Inserisci la percentuale di umidità");
-                                                    String per_umi = scan51.nextLine();
-                                                    System.out.println("Inseriscil un punteggio da 1 a 5 per la percentuale di umidita'");
-                                                    String per_umi_punteggio = scan52.nextLine();
-                                                    System.out.println("Inserisci note sulla percentuale di umidita' (Singola riga, max 256 caratteri)");
-                                                    String commenti_umi = scan53.nextLine();
-                                                    
-                                                    String umidita = per_umi+"\t"+per_umi_punteggio+"\t"+commenti_umi;
-                                                    
-                                                    //Pressione
-                                                    System.out.println("Inserisci la pressione in hPa");
-                                                    String pressione_hpa = scan54.nextLine();
-                                                    System.out.println("Inseriscil un punteggio da 1 a 5 per la pressione");
-                                                    String pressione_punteggio = scan55.nextLine();
-                                                    System.out.println("Inserisci note sulla pressione (Singola riga, max 256 caratteri)");
-                                                    String commenti_pressione = scan56.nextLine();
-                                                    
-                                                    String pressione = pressione_hpa+"\t"+pressione_punteggio+"\t"+commenti_pressione;
-                                                    
-                                                    //Temperatura
-                                                    System.out.println("Inserisci la temperatura in gradi");
-                                                    String temp = scan57.nextLine();
-                                                    System.out.println("Inseriscil un punteggio da 1 a 5 per la temperatura");
-                                                    String temp_punteggio = scan58.nextLine();
-                                                    System.out.println("Inserisci note sulla temperatura (Singola riga, max 256 caratteri)");
-                                                    String commenti_temp = scan59.nextLine();
-                                                    
-                                                    String temperatura = temp+"\t"+temp_punteggio+"\t"+commenti_temp;
-                                                    
-                                                    
-                                                    //Precipitazioni
-                                                    System.out.println("Inserisci i millimetri delle precipitazioni");
-                                                    String mm_prec = scan60.nextLine();
-                                                    System.out.println("Inseriscil un punteggio da 1 a 5 per le precipitazioni");
-                                                    String mm_prec_punteggio = scan61.nextLine();
-                                                    System.out.println("Inserisci note sulle precipitazioni (Singola riga, max 256 caratteri)");
-                                                    String commenti_mm_prec = scan62.nextLine();
-                                                    
-                                                    String precipitazioni = mm_prec+"\t"+mm_prec_punteggio+"\t"+commenti_mm_prec;
-                                                    
-                                                    //Altitudine dei ghiacciai
-                                                    System.out.println("Inserisci l'altitudine dei ghiacciai in metri");
-                                                    String metri = scan63.nextLine();
-                                                    System.out.println("Inseriscil un punteggio da 1 a 5 per l'altitudine dei ghiacciai");
-                                                    String metri_punteggio = scan64.nextLine();
-                                                    System.out.println("Inserisci note sull'altitudine (Singola riga, max 256 caratteri)");
-                                                    String commenti_metri = scan65.nextLine();
-                                                    
-                                                    String altitudine_ghiacciai = metri+"\t"+metri_punteggio+"\t"+commenti_metri;
-                                                    
-                                                    //Massa dei ghiacciai
-                                                    System.out.println("Inserisci la massa dei ghiacciai in Kg");
-                                                    String kg = scan66.nextLine();
-                                                    System.out.println("Inseriscil un punteggio da 1 a 5 per la massa dei ghiacciai");
-                                                    String kg_punteggio = scan67.nextLine();
-                                                    System.out.println("Inserisci note sulla massa (Singola riga, max 256 caratteri)");
-                                                    String commenti_kg = scan68.nextLine();
-                                                    
-                                                    String massa_ghiacciai = kg+"\t"+kg_punteggio+"\t"+commenti_kg;
-                                                    
-                                                    pc.inserisci(geonameidarea, datainformazioni, vento, umidita, pressione, temperatura, precipitazioni, altitudine_ghiacciai, massa_ghiacciai);
-                                                    
-                                                }else{
-                                                    System.out.println("Il Geoname ID inserito non esiste");
-                                                }
-                                                
-                                                
-                                                break;
-                                            case 2:
-                                                System.out.println("Inserisci il Geoname ID dell'area di cui vuoi modificare le informazioni");
-                                                String geonameidarea2 = scan69.nextLine();
-                                                System.out.println("Inserisci la data a cui fanno riferimento le informazioni che vuoi modificare formato giorno/mese/anno");
-                                                String datainformazioni2 = scan70.nextLine();
-                                                String da_modificare = geonameidarea2+"-----"+datainformazioni2+".txt";
-                                                File f_mod = new File("./Parametri/"+da_modificare);
-                                                if(Files.exists(f_mod.toPath())){
-                                                    boolean token_scelta3 = false;
-                                                    String[] righe_da_modificare = new String[7];
-                                                    Scanner scanp = new Scanner(f_mod);
-                                                    int i = 0;
-                                                    while(scanp.hasNextLine()){
-                                                        righe_da_modificare[i] = scanp.nextLine();
-                                                        i++;
-                                                    }
-                                                    scanp.close();
-                                                    
-                                                    
-                                                    
-                                                    do{
-                                                        System.out.println("Cosa vuoi modificare modificare?");
-                                                        System.out.println("1. I parametri del vento");
-                                                        System.out.println("2. I parametri dell'umidita'");
-                                                        System.out.println("3. I parametri della pressione");
-                                                        System.out.println("4. I parametri della temperatura");
-                                                        System.out.println("5. I parametri delle precipitazioni");
-                                                        System.out.println("6. I parametri dell'altitudine dei ghiacciai");
-                                                        System.out.println("7. I parametri sulla massa dei ghiacciai");
-                                                        System.out.println("8. Il Geoname ID");
-                                                        System.out.println("9. La data");
-                                                        System.out.println("10. Indietro");
-                                                        
-                                                        int scelta_mod = scan71.nextInt();
-                                                        
-                                                        
-                                                        
-                                                        
-                                                        
-                                                        switch(scelta_mod){
-                                                            case 8:
-                                                                System.out.println("Inseriscil il nuovo Geoname ID");
-                                                                String ngeonameid = scan72.nextLine();
-                                                                //Se il nuovo geoname esiste
-                                                                String nuovo = "./Parametri/"+ngeonameid+"-----"+datainformazioni2+".txt------"+"./Parametri/"+da_modificare;
-                                                                pc.modifica(nuovo, 3);
-                                                                break;
-                                                            case 9:
-                                                                System.out.println("Inserisci la nuava data");
-                                                                String ndata = scan72.nextLine();
-                                                                //Se il nuovo geoname esiste
-                                                                String nuovo2 = "./Parametri/"+geonameidarea2+"-----"+ndata+".txt------"+"./Parametri/"+da_modificare;
-                                                                pc.modifica(nuovo2, 3);
-                                                                break;
-                                                            case 10:
-                                                                token_scelta3 = false;
-                                                                break;
-                                                        }
-                                                        
-                                                        
-                                                    }while(token_scelta3);
-                                                }else{
-                                                    System.out.println("Non ci sono informazioni sull'area scelta in quel determinato giorno");
-                                                }
-                                                break;
-                                            case 3:
-                                                break;
-                                            case 4:
-                                                break;
-                                            default:
-                                                System.out.println("Scelta inavilda");
-                                                break;
-                                        }
-                                   }while(token_scelta2);
-                                   
-                               }else{
-                                   System.out.println("Non hai effettuato l'accesso\nInserisci il tuo userid");
-                                   String userid2 = scan13.nextLine();
-                                   System.out.println("Inserisci la tua password");
-                                   String password2 = scan13.nextLine();
-                                   Account a2 = new Account();
-                                   if(cookie = a2.login(userid2, password2)){
-                                      //Menu 
-                                       System.out.println("Login andato a buon fine");
-                                   }else{
-                                       boolean token_scelta2 = true;
-                                       do{
-                                           System.out.println("Il login non è andato a buon fine\n1. Riprova\n2. Registrati\n3. Indietro");
-                                           int scelta = scan14.nextInt();
-                                           
-                                           switch(scelta){
-                                               case 1:
-                                                   System.out.println("Inserisci il tuo userid");
-                                                   String userid3 = scan15.nextLine();
-                                                   System.out.println("Inserisci la tua password");
-                                                   String password3 = scan15.nextLine();
-                                                   if(a2.login(userid3, password3)){
-                                                       token_scelta2 = false;
-                                                       cookie = true;
-                                                   }
-                                                   break;
-                                                   
-                                               case 2:
-                                                    String nome_e_cognome, codice_fiscale, email, userid, password, centro_di_monitoraggio_di_afferenza;
-                                                    System.out.println("Inserisci il tuo nome e cognome");
-                                                    nome_e_cognome = scan16.nextLine();
-                                                    System.out.println("Inserisci il tuo codice fiscale");
-                                                    codice_fiscale = scan16.nextLine();
-                                                    System.out.println("Inserisci il tuo indirizzo mail");
-                                                    email = scan16.nextLine();
-                                                    System.out.println("Inserisci il tuo nome userid");
-                                                    userid = scan16.nextLine();
-                                                    System.out.println("Inserisci la tua password");
-                                                    password = scan16.nextLine();
-                                                    System.out.println("Inserisci il tuo centro di monitoraggio di afferenza");
-                                                    centro_di_monitoraggio_di_afferenza = scan16.nextLine();
-                                                    Account a = new Account();
-                                                    cookie = a.registrazione(nome_e_cognome, codice_fiscale, email, userid, password, centro_di_monitoraggio_di_afferenza);
-                                                    if(!cookie){
-                                                        System.out.println("Errore sconosciuto");
-                                                        break;
-                                                    }else{
-                                                        token_scelta2 = false;
-                                                    }
-                                                    break;
-                                                
-                                               case 3:
-                                                   token_scelta2 = false;
-                                                   break;
-                                               default:
-                                                   System.out.println("Scelta invalida");
-                                                   break;
-                                           }
-                                       }while(token_scelta2);
-                                   }
-                               }
-                               break;
-                           case 2:
-                               token_scelta = false;
-                               break;
-                       }
-                   }while(token_scelta);
-                   
-                   break;
-               
-                   
-                   
-               case 6:
-                   boolean token_scelta3 = true;
-                   Account a2 = new Account();
-                   do{
-                       if(cookie){
-                           System.out.println("Cosa vuoi fare con il tuo account?");
-                           System.out.println("1. Aggiungi un centro di monitoraggio");
-                           System.out.println("2. Modifica i dati");
-                           System.out.println("3. Elimina il tuo account");
-                           System.out.println("4. Indietro");
-                           
-                           int sceltaacc = scan42.nextInt();
-                           
-                           switch(sceltaacc){
-                               case 1:
-                                   
-                                   String nuovo = "";
-                                       File centri = new File("CentroMonitoraggio.dati");
-                                       if(Files.readAllBytes(centri.toPath()).length == 0){
-                                           System.out.println("Nel programma non e' inserito nessun centro di monitoraggio");
-                                           break;
-                                        }else{
-                                            File t = new File("cookie.txt");
-                                   
-                                            String username = Files.readString(t.toPath());
-                                            System.out.println("Inserisci il nome del centro di monitoraggio (Inserisci 'Stop' per fermare l'inserimento)");
-                                            String nome_centro = scan43.nextLine();
-                                            if(nome_centro.equals("Stop")){
-                                                break;
-                                            }
-                                            System.out.println("Inserisci l'indirizzo del centro di monitoraggio");
-                                            String indirizzo_centro = scan44.nextLine();
-                                            //Vede se il centro inserito esiste
-                                            Scanner scancentri = new Scanner(centri);
-                                            boolean esiste = false;
-                                            while(scancentri.hasNextLine()){
-                                                String riga = scancentri.nextLine();
-                                                //System.out.println(riga);
-                                                String[] dati = riga.split("\t");
-                                                //System.out.println(dati[0] + " e' uguale a " + nome_centro + " e " + dati[1] + " e' uguale a " + indirizzo_centro + " ?");
-                                                if(dati[0].equals(nome_centro) & dati[1].equals(indirizzo_centro) ){
-                                                    //System.out.println("e' uguale !");
-                                                    esiste = true;
-                                                }
-                                            }
-                                            
-                                            if(esiste){
-                                                                                            
-                                                File operatori = new File("OperatoriRegistrati.dati");
-                                                Scanner scanop = new Scanner(operatori);
-                                                
-                                                while(scanop.hasNextLine()){
-                                                    String riga = scanop.nextLine();
-                                                    String[] dati = riga.split("\t");
-                                                    
-                                                    //System.out.println(dati.length + " > 6 ?");
-                                                    if(dati.length >= 6){
-                                                        System.out.println("Sei gia' parte del centro di monitoraggio : "  + dati[5] + " non puoi far parte di piu' centri di monitoraggio");
-                                                        break;
-                                                        
-                                                    }else{
-                                                        if(dati[3].equals(username)){
-                                                            String[] dati2 = riga.split("\t");
-                                                            boolean inserito = false;
-                                                            for(int i=0;i<dati2.length; i++){
-                                                                if(dati2[i].equals(nome_centro)){
-                                                                    inserito = true;
-                                                                    break;
-                                                                }
-                                                            }
-                                                            if(inserito){
-                                                                System.out.println("Centro gia' inserito in questo centro");
-                                                            }else{
-                                                               nuovo = riga+"\t"+nome_centro;
-                                                            }
-
-                                                            break;
-                                                        }
-
-                                                    }
-                                                    //System.out.println("risultato: " + nuovo);
-
-                                                    a2.gestione_account(nuovo, 1);
-                                                    }
-                                                }else{
-                                                System.out.println("Il centro inserito non esiste");
-                                                
-                                            }
-                                            
-                                       }    
-                                   
-                                   
-                                   break;
-                               case 2:
-                                   boolean token_scelta4 = true;
-                                   File t2 = new File("cookie.txt");
-                                   String username2 = Files.readString(t2.toPath());
-                                   File operatori = new File("OperatoriRegistrati.dati");
-                                   Scanner scanop = new Scanner(operatori);
-                                   String riga_da_sostituire = "";
-                                   while(scanop.hasNextLine()){
-                                       String riga = scanop.nextLine();
-                                       String[] dati = riga.split("\t");
-                                       if(dati[3].equals(username2)){
-                                           riga_da_sostituire = riga;
-                                           break;
-                                       }
-                                   }
-                                   String[] campi = riga_da_sostituire.split("\t");
-                                   do{
-                                        
-                                        System.out.println("Quale dati del tuo account vuoi modificare?");
-                                        System.out.println("1. Nome e Cognome");
-                                        System.out.println("2. Codice fiscale");
-                                        System.out.println("3. Email");
-                                        System.out.println("4. Userid (Se lo cambi dovrai effettuare di nuovo l'accesso!)");
-                                        System.out.println("5. Password");
-                                        System.out.println("6. Centro di appartenenza");
-                                        System.out.println("7. Indietro");
-
-                                        int sceltama = scan45.nextInt();
-                                        File operatori2 = new File("OperatoriRegistrati.dati");
-                                        Scanner scanop2 = new Scanner(operatori2);
-
-                                        switch(sceltama){
-                                            case 1:
-                                                System.out.println("Inserisci il nuovo nome e il nuovo cognome");
-                                                String nnome_cognome = scan46.nextLine();
-                                                String nuovo2 = "";
-                                                if(campi.length >= 6){
-                                                    nuovo2 = nnome_cognome+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
-                                                }else{
-                                                    nuovo2 = nnome_cognome+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4];
-                                                }
-                                                a2.gestione_account(nuovo2, 2);
-                                                campi[0] = nnome_cognome;
-                                                break;
-                                            case 2:
-                                                boolean check_cf = true;
-                                                String ncf = "";
-                                                do{
-                                                     System.out.println("Inserisci il tuo codice fiscale");
-                                                     ncf = scan46.nextLine().toUpperCase();
-                                                     check_cf = !a2.convalida_cofice_fiscale(ncf);
-                                                }while(check_cf);
-                                                boolean trovato = false;
-                                                while(scanop2.hasNextLine()){
-                                                    String riga = scanop2.nextLine();
-                                                    String[] dati = riga.split("\t");
-                                                    if(!dati[3].equals(username2) & dati[1].equals(ncf)){
-                                                        trovato = true;
-                                                        System.out.println("Il codice fiscale inserito e' gia' associato ad un altro account");
-                                                        break;
-                                                    }
-                                                }
-                                                
-                                                if(!trovato){
-                                                    String nuovo3 = "";
-                                                    if(campi.length >= 6){
-                                                        nuovo3 = campi[0]+"\t"+ncf+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
-                                                    }else{
-                                                        nuovo3 = campi[0]+"\t"+ncf+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4];
-                                                    }
-                                                    a2.gestione_account(nuovo3, 2);
-                                                    campi[1] = ncf; 
-                                                }
-                                                
-                                                
-                                                break;
-                                            case 3:
-                                                boolean check_m = true;
-                                                String nmail = "";
-                                                do{
-                                                     System.out.println("Inserisci la nuova mail");
-                                                     nmail = scan46.nextLine();
-                                                     check_m = !a2.convalida_mail(nmail);
-                                                }while(check_m);
-                                                
-                                                boolean trovato2 = false;
-                                                while(scanop2.hasNextLine()){
-                                                    String riga = scanop2.nextLine();
-                                                    String[] dati = riga.split("\t");
-                                                    if(!dati[3].equals(username2) & dati[2].equals(nmail)){
-                                                        trovato2 = true;
-                                                        System.out.println("L'email inserita e' gia' associata ad un altro account");
-                                                        break;
-                                                    }
-                                                }
-                                                
-                                                if(!trovato2){
-                                                    String nuovo4 = "";
-                                                    if(campi.length >= 6){
-                                                        nuovo4 = campi[0]+"\t"+campi[1]+"\t"+nmail+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
-                                                    }else{
-                                                        nuovo4 = campi[0]+"\t"+campi[1]+"\t"+nmail+"\t"+campi[3]+"\t"+campi[4]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4];
-                                                    }
-                                                    a2.gestione_account(nuovo4, 2);
-                                                    campi[2] = nmail; 
-                                                }
-                                                
-                                                
-                                                break;
-                                            case 4:
-                                                System.out.println("Inserisci il nuovo userid");
-                                                String nuserid = scan46.nextLine();
-                                                String nuovo5 = "";
-                                                
-                                                boolean trovato3 = false;
-                                                while(scanop2.hasNextLine()){
-                                                    String riga = scanop2.nextLine();
-                                                    String[] dati = riga.split("\t");
-                                                    if(dati[3].equals(nuserid)){
-                                                        trovato3 = true;
-                                                        System.out.println("L'userid inserito e' gia' associato ad un altro account");
-                                                        break;
-                                                    }
-                                                }
-                                                
-                                                if(!trovato3){
-                                                    if(campi.length >= 6){
-                                                        nuovo5 = campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+nuserid+"\t"+campi[4]+"\t"+campi[5]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
-                                                    }else{
-                                                        nuovo5 = campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+nuserid+"\t"+campi[4]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4];
-                                                    }
-                                                    a2.gestione_account(nuovo5, 2);
-                                                    campi[3] = nuserid;
-                                                    cookie = false;
-                                                    token_scelta4 = false;
-                                                    token_scelta3 = false;
-                                                }
-                                                
-                                                
-                                                break;
-                                            case 5:
-                                                System.out.println("Inserisci la nuova password");
-                                                String npassword = scan46.nextLine();
-                                                String nuovo6 = "";
-                                                
-                                                if(campi.length >= 6){
-                                                    nuovo6 = campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+npassword+"\t"+campi[5]+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
-                                                }else{
-                                                    nuovo6 = campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+npassword+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4];
-                                                }
-                                                a2.gestione_account(nuovo6, 2);
-                                                campi[4] = npassword;
-                                                break;
-                                            case 6:
-                                                String nuovo7 = "";
-                                                if(campi.length >= 6){
-                                                    //Inserire nome e via del centro
-                                                    System.out.println("Inserire il nome del centro");
-                                                    String nnome_centro = scan46.nextLine();
-                                                    System.out.println("Inserisci l'indirizzo del centro");
-                                                    String nindirizzo_centro = scan47.nextLine();
-                                                    File centri2 = new File("CentroMonitoraggio.dati");
-                                                    Scanner scancentri2 = new Scanner(centri2);
-                                                    
-                                                    //Vedere se esiste
-                                                    boolean esiste = false;
-                                                    while(scancentri2.hasNextLine()){
-                                                        String riga = scancentri2.nextLine();
-                                                        String[] dati = riga.split("\t");
-                                                        if(dati[0].equals(nnome_centro) & dati[1].equals(nindirizzo_centro)){
-                                                            esiste = true;
-                                                        }
-                                                    }
-                                                    
-                                                    
-                                                    
-                                                    //Vedere se non e' già inserito
-                                                    
-                                                    if(!nnome_centro.equals(campi[5]) & esiste){
-                                                        nuovo7 = campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+nnome_centro+"-----"+campi[0]+"\t"+campi[1]+"\t"+campi[2]+"\t"+campi[3]+"\t"+campi[4]+"\t"+campi[5];
-                                                        a2.gestione_account(nuovo7, 2);
-                                                        campi[5] = nnome_centro;
-                                                    }
-                                                    
-                                                    //Se le condizione vengono soddisfatte inserirlo nella maxi stringa
-                                                }else{
-                                                    System.out.println("Non c'è nessun centro di appartenenza da modificare");
-                                                }
-                                                break;
-                                            case 7:
-                                                token_scelta4 = false;
-                                                break;
-                                        }
-                                   }while(token_scelta4);
-                                   break;
-                               case 3:
-                                   File t = new File("cookie.txt");
-                                   
-                                   String username = Files.readString(t.toPath());
-                                   a2.gestione_account(username, 3);
-                                   Files.delete(t.toPath());
-                                   token_scelta3 = false;
-                                   break;
-                               case 4:
-                                   token_scelta3 = false;
-                                   break;
-                           }
-                           
-                       }else{
-                           boolean token_scelta2 = true;
-                           do{
-                                System.out.println("Non hai effettuato l'accesso\n1. Accedi\n2. Registrati\n3. Indietro");
-                                int scelta = scan14.nextInt();
-                                           
-                                    switch(scelta){
-                                        case 1:
-                                            System.out.println("Inserisci il tuo userid");
-                                            String userid3 = scan15.nextLine();
-                                            System.out.println("Inserisci la tua password");
-                                            String password3 = scan15.nextLine();
-                                            if(a2.login(userid3, password3)){
-                                                token_scelta2 = false;
-                                                cookie = true;
-                                            }
-                                            break;
-                                                   
-                                            case 2:
-                                                String nome_e_cognome, codice_fiscale, email, userid, password, centro_di_monitoraggio_di_afferenza;
-                                                System.out.println("Inserisci il tuo nome e cognome");
-                                                nome_e_cognome = scan16.nextLine();
-                                                System.out.println("Inserisci il tuo codice fiscale");
-                                                codice_fiscale = scan16.nextLine();
-                                                System.out.println("Inserisci il tuo indirizzo mail");
-                                                email = scan16.nextLine();
-                                                System.out.println("Inserisci il tuo nome userid");
-                                                userid = scan16.nextLine();
-                                                System.out.println("Inserisci la tua password");
-                                                password = scan16.nextLine();
-                                                System.out.println("Inserisci il tuo centro di monitoraggio di afferenza");
-                                                centro_di_monitoraggio_di_afferenza = scan16.nextLine();
-                                                Account a = new Account();
-                                                cookie = a.registrazione(nome_e_cognome, codice_fiscale, email, userid, password, centro_di_monitoraggio_di_afferenza);
-                                                if(!cookie){
-                                                    //System.out.println("Errore sconosciuto");
-                                                    break;
-                                                }else{
-                                                    token_scelta2 = false;
-                                                }
-                                                break;
-                                                
-                                            case 3:
-                                                token_scelta2 = false;
-                                                break;
-                                            default:
-                                                System.out.println("Scelta invalida");
-                                                break;
-                                        }
-                            }while(token_scelta2);
-                       }
-                   }while(token_scelta3);
-                   
-                   break;
-                   
-                   
-               case 7:
-                   
-                   
-               default:
-                   System.out.println("Scelta invalida");
-                   break;
-           }       
-        }
-        
-        
-
-        */
     }
     
 }
