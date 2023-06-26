@@ -73,8 +73,8 @@ public class Account {
      * @throws IOException
      */
     public void gestione_account(String s, int scelta) throws FileNotFoundException, IOException{
-        File o = new File("OperatoriRegistrati.dati");
-        File t = new File("temp.txt");
+        File o = new File("C:\\Climate Monitoring\\OperatoriRegistrati.dati");
+        File t = new File("C:\\Climate Monitoring\\temp.txt");
         BufferedWriter t2 = new BufferedWriter(new FileWriter("temp.txt"));
         Scanner scano = new Scanner(o);
         Scanner scant = new Scanner(t);
@@ -314,7 +314,7 @@ public class Account {
      */
     public void registraCentroAree(String s, int n) throws FileNotFoundException, IOException{
         
-        File myObj = new File("CoordinateMonitoraggio.dati");
+        File myObj = new File("C:\\Climate Monitoring\\CoordinateMonitoraggio.dati");
         
         Scanner myReader2 = new Scanner(myObj, "utf-8");
         switch(n){
@@ -350,7 +350,7 @@ public class Account {
             case 2:
                 //Rimuovi area
                 BufferedWriter writer3 = new BufferedWriter(new FileWriter("temp.txt"));
-                File myObj2 = new File("CoordinateMonitoraggio.dati");
+                File myObj2 = new File("C:\\Climate Monitoring\\CoordinateMonitoraggio.dati");
                 Scanner myReader3 = new Scanner(myObj2, "UTF-8");
                 boolean trovata2 = false;
                 while(myReader3.hasNextLine()){
@@ -373,7 +373,7 @@ public class Account {
                     writer3.close();
                     BufferedWriter writer4 = new BufferedWriter(new FileWriter("CoordinateMonitoraggio.dati"));
 
-                    File temp = new File("temp.txt");
+                    File temp = new File("C:\\Climate Monitoring\\temp.txt");
 
                     Scanner scan = new Scanner(temp, "UTF-8");
                     
@@ -401,7 +401,7 @@ public class Account {
                 //System.out.println("Stringa da modificare: " + stringhe[1]);
                 //System.out.println("Stringa modificata da sostituire: " + stringhe[0]);
                 BufferedWriter writer5 = new BufferedWriter(new FileWriter("temp.txt"));
-                File myObj3 = new File("CoordinateMonitoraggio.dati");
+                File myObj3 = new File("C:\\Climate Monitoring\\CoordinateMonitoraggio.dati");
                 Scanner myReader4 = new Scanner(myObj3, "UTF-8");
                 boolean trovata3 = false;
                 
@@ -441,7 +441,7 @@ public class Account {
                     writer5.close();
                     BufferedWriter writer4 = new BufferedWriter(new FileWriter("CoordinateMonitoraggio.dati"));
 
-                    File temp = new File("temp.txt");
+                    File temp = new File("C:\\Climate Monitoring\\temp.txt");
 
                     Scanner scan = new Scanner(temp, "UTF-8");
                     
@@ -471,7 +471,7 @@ public class Account {
             case 5:
                 //Rimuovi centro
                 BufferedWriter writer6 = new BufferedWriter(new FileWriter("temp.txt"));
-                File myObj4 = new File("CentroMonitoraggio.dati");
+                File myObj4 = new File("C:\\Climate Monitoring\\CentroMonitoraggio.dati");
                 Scanner myReader5 = new Scanner(myObj4, "UTF-8");
                 boolean trovata4 = false;
                 while(myReader5.hasNextLine()){
@@ -493,7 +493,7 @@ public class Account {
                     writer6.close();
                     BufferedWriter writer7 = new BufferedWriter(new FileWriter("CentroMonitoraggio.dati"));
 
-                    File temp = new File("temp.txt");
+                    File temp = new File("C:\\Climate Monitoring\\temp.txt");
 
                     Scanner scan = new Scanner(temp, "UTF-8");
 
@@ -514,7 +514,7 @@ public class Account {
                 //System.out.println("Stringa da modificare: " + stringhe2[1]);
                 //System.out.println("Stringa modificata da sostituire: " + stringhe2[0]);
                 BufferedWriter writer8 = new BufferedWriter(new FileWriter("temp.txt"));
-                File myObj5 = new File("CentroMonitoraggio.dati");
+                File myObj5 = new File("C:\\Climate Monitoring\\CentroMonitoraggio.dati");
                 Scanner myReader6 = new Scanner(myObj5, "UTF-8");
                 boolean trovata5 = false;
                 while(myReader6.hasNextLine()){
@@ -537,7 +537,7 @@ public class Account {
                     writer8.close();
                     BufferedWriter writer4 = new BufferedWriter(new FileWriter("CentroMonitoraggio.dati"));
 
-                    File temp = new File("temp.txt");
+                    File temp = new File("C:\\Climate Monitoring\\temp.txt");
 
                     Scanner scan = new Scanner(temp, "UTF-8");
 
@@ -578,7 +578,7 @@ public class Account {
         this.setPassword(password);
         
         while(!esiste){
-           File myObj = new File("OperatoriRegistrati.dati");
+           File myObj = new File("C:\\Climate Monitoring\\OperatoriRegistrati.dati");
            Scanner myReader = new Scanner(myObj, "utf-8");
            
            while (myReader.hasNextLine() & esiste == false) {
@@ -708,7 +708,7 @@ public class Account {
         //Separatore "\t" in ogni riga del file i campi sono separati da questa stringa
         while(true){
             //Ricerca se l'utente esiste già per non creare duplicati
-            File myObj = new File("OperatoriRegistrati.dati");
+            File myObj = new File("C:\\Climate Monitoring\\OperatoriRegistrati.dati");
             Scanner myReader = new Scanner(myObj, "utf-8");
             
             while (myReader.hasNextLine()) {
@@ -744,7 +744,7 @@ public class Account {
             
 
             //Ricerca centro
-            File myObj2 = new File("CentroMonitoraggio.dati");
+            File myObj2 = new File("C:\\Climate Monitoring\\CentroMonitoraggio.dati");
             Scanner myReader2 = new Scanner(myObj2, "utf-8");
             boolean trovato2 = false;
             while (myReader2.hasNextLine() & trovato2 == false) {
@@ -758,7 +758,7 @@ public class Account {
             
             BufferedWriter writer = new BufferedWriter(new FileWriter("OperatoriRegistrati.dati", true));
             if(trovato2){
-                File operatori = new File("OperatoriRegistrati.dati");
+                File operatori = new File("C:\\Climate Monitoring\\OperatoriRegistrati.dati");
                 String vuoto = Files.readString(operatori.toPath());
                 if(vuoto.length() == 0){
                     writer.write(this.getNome_e_cognome()+"\t"+this.getCodice_fiscale().toUpperCase()+"\t"+this.getEmail()+"\t"+this.getUserid()+"\t"+this.getPassword()+"\t"+this.getCentro_di_monitoraggio_di_afferenza());
