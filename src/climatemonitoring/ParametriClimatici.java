@@ -37,7 +37,7 @@ public class ParametriClimatici {
     public void visualizzaAreaGeografica(String geonameid, String data) throws FileNotFoundException, IOException{
         String[] dati_data = data.split("/");
         
-        File parametri = new File("."+File.separator+"Parametri"+File.separator+geonameid+"------"+dati_data[0]+dati_data[1]+dati_data[2]+".txt");
+        File parametri = new File("C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+geonameid+"------"+dati_data[0]+dati_data[1]+dati_data[2]+".txt");
         
         if(Files.exists(parametri.toPath())){
             //System.out.println("Il file e' stato trovato!");
@@ -92,12 +92,12 @@ public class ParametriClimatici {
             dati = "Massa dei ghiacciai: " + temp2[0] + "Kg Punteggio: " + temp2[1] + " Commenti:\n" + temp2[2];
             System.out.println(dati);
             
-            
+            scan.close();
             
         }else{
             System.out.println("Non sono stati trovati dati sull'area con Geoname ID " + geonameid + " nella data " + data);
              
-            File dir = new File("."+File.separator+"Parametri"+File.separator);
+            File dir = new File("C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator);
             this.showFiles(dir.listFiles(), geonameid, data);
         }
     }
@@ -163,7 +163,7 @@ public class ParametriClimatici {
      */
     public boolean esiste_area(String geonameid) throws FileNotFoundException{
         
-        File aree = new File("CoordinateMonitoraggio.dati");
+        File aree = new File("C:\\Climate Monitoring\\CoordinateMonitoraggio.dati");
         Scanner scan = new Scanner(aree);
         scan.nextLine();
         while(scan.hasNextLine()){
@@ -190,7 +190,7 @@ public class ParametriClimatici {
         
         if(scelta <= 6){
             
-            File temp = new File("temp.txt");
+        File temp = new File("C:\\Climate Monitoring\\temp.txt");
         temp.createNewFile();
         Scanner scant = new Scanner(temp);
         BufferedWriter wt = new BufferedWriter(new FileWriter(temp));
@@ -351,7 +351,7 @@ public class ParametriClimatici {
      */
     public void inserisciParametriClimatici(String geonameid, String data, String vento, String umidita, String pressione, String temperatura, String precipitazioni, String altitudine_ghiacciai, String massa_ghiacciai) throws IOException{
         String[] dati_data = data.split("/");
-        File f = new File("."+File.separator+"Parametri"+File.separator+geonameid+"------"+dati_data[0]+dati_data[1]+dati_data[2]+".txt");
+        File f = new File("C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+geonameid+"------"+dati_data[0]+dati_data[1]+dati_data[2]+".txt");
         f.createNewFile();
         BufferedWriter bf = new BufferedWriter(new FileWriter(f));
         bf.write(vento+"\n"+umidita+"\n"+pressione+"\n"+temperatura+"\n"+precipitazioni+"\n"+altitudine_ghiacciai+"\n"+massa_ghiacciai);
