@@ -48,7 +48,7 @@ public class ClimateMonitor {
      */
     
     static void cercaAreaGeografica(String ricerca, int tipo) throws FileNotFoundException{
-      File myObj = new File("CoordinateMonitoraggio.dati");
+      File myObj = new File("C:\\Climate Monitoring\\CoordinateMonitoraggio.dati");
       Scanner myReader = new Scanner(myObj, "utf-8");
       String legenda = myReader.nextLine();//Salta la prima riga senza dati
       //String[] dati = data.split("\t");
@@ -500,7 +500,7 @@ public class ClimateMonitor {
                                                             Scanner scan12 = new Scanner(System.in);
                                                             System.out.println("Inserisci il Geoname id dell'area");
                                                             String geonameid3 = scan12.nextLine();
-                                                            File myObj2 = new File("CoordinateMonitoraggio.dati");
+                                                            File myObj2 = new File("C:\\Climate Monitoring\\CoordinateMonitoraggio.dati");
                                                             Scanner myReader3 = new Scanner(myObj2, "UTF-8");
                                                             String mod = null;
                                                             boolean trovata = false;
@@ -620,7 +620,7 @@ public class ClimateMonitor {
                                                                                 
                                                                             }while(!coord_valide);
                                                                             boolean trovato = false;
-                                                                            File myObj3 = new File("CoordinateMonitoraggio.dati");
+                                                                            File myObj3 = new File("C:\\Climate Monitoring\\CoordinateMonitoraggio.dati");
                                                                             Scanner myReader4 = new Scanner(myObj3, "UTF-8");
                                                                             while(myReader4.hasNextLine()){
                                                                                 String riga = myReader4.nextLine();
@@ -714,7 +714,7 @@ public class ClimateMonitor {
                                                                 
                                                             }while(!no_tab2);
                                                             
-                                                            File centri = new File("CentroMonitoraggio.dati");
+                                                            File centri = new File("C:\\Climate Monitoring\\CentroMonitoraggio.dati");
                                                             boolean presente = false;
                                                             Scanner scancentri = new Scanner(centri, "UTF-8");
                                                             while(scancentri.hasNextLine()){
@@ -749,7 +749,7 @@ public class ClimateMonitor {
                                                                     
                                                                     if(!inserito){
                                                                         boolean esiste = false;
-                                                                        File areef = new File("CoordinateMonitoraggio.dati");
+                                                                        File areef = new File("C:\\Climate Monitoring\\CoordinateMonitoraggio.dati");
                                                                         Scanner scanaree = new Scanner(areef, "UTF-8");
                                                                         scanaree.nextLine(); //Salta la prima riga senza dati
                                                                         while(scanaree.hasNextLine()){
@@ -779,7 +779,7 @@ public class ClimateMonitor {
                                                         case 2:
                                                             
                                                             
-                                                            File v = new File("CentroMonitoraggio.dati");
+                                                            File v = new File("C:\\Climate Monitoring\\CentroMonitoraggio.dati");
                                                             if(Files.readAllBytes(v.toPath()).length == 0){
                                                                 System.out.println("Non e' presente alcun centro di monitoraggio");
                                                             }else{
@@ -791,7 +791,7 @@ public class ClimateMonitor {
                                                                 String nome_centro2 = scan16.nextLine();
                                                                 System.out.println("Inserisci l'indirizzo del centro che vuoi rimuovere");
                                                                 String indirizzo_centro2 = scan17.nextLine();
-                                                                File centri2 = new File("CentroMonitoraggio.dati");
+                                                                File centri2 = new File("C:\\Climate Monitoring\\CentroMonitoraggio.dati");
                                                                 Scanner scancentri3 = new Scanner(centri2);
                                                                 boolean trovato = false;
                                                                 while(scancentri3.hasNextLine()){
@@ -819,7 +819,7 @@ public class ClimateMonitor {
                                                             
                                                             //Modifica centro di monitoraggio
                                                             Scanner scan2 = new Scanner(System.in);
-                                                            File v2 = new File("CentroMonitoraggio.dati");
+                                                            File v2 = new File("C:\\Climate Monitoring\\CentroMonitoraggio.dati");
                                                             if(Files.readAllBytes(v2.toPath()).length == 0){
                                                                 System.out.println("Non e' presente alcun centro di monitoraggio");
                                                             }else{
@@ -829,7 +829,7 @@ public class ClimateMonitor {
                                                                 System.out.println("Inserisci l'indirizzo del centro che vuoi modificare");
                                                                 String indirizzo_centro3 = scan2.nextLine();
                                                                 //Cerca se il centro inserito esiste
-                                                                File centri3 = new File("CentroMonitoraggio.dati");
+                                                                File centri3 = new File("C:\\Climate Monitoring\\CentroMonitoraggio.dati");
                                                                 Scanner scancentri2 = new Scanner(centri3);
                                                                 boolean trovato2 = false;
                                                                 String centro_da_modificare = "";
@@ -868,7 +868,7 @@ public class ClimateMonitor {
                                                                         }while(!input_valido4);
                                                                         
                                                                         
-                                                                        File centri4 = new File("CentroMonitoraggio.dati");
+                                                                        File centri4 = new File("C:\\Climate Monitoring\\CentroMonitoraggio.dati");
                                                                         Scanner scancentri3 = new Scanner(centri4);
                                                                         switch(Integer.valueOf(scelta2)){
                                                                             case 1:
@@ -1177,7 +1177,7 @@ public class ClimateMonitor {
                                                                                                         //Controlla se l'area ngnid esiste
                                                                                                         //Se esiste inserirla nel centro
                                                                                                         
-                                                                                                        File f4 = new File("CoordinateMonitoraggio.dati");
+                                                                                                        File f4 = new File("C:\\Climate Monitoring\\CoordinateMonitoraggio.dati");
                                                                                                         Scanner scanf4 = new Scanner(f4);
                                                                                                         scanf4.nextLine();
                                                                                                         
@@ -1306,7 +1306,7 @@ public class ClimateMonitor {
                                                                         break;
                                                                         
                                                                     case 1:
-                                                                        File f = new File("CentroMonitoraggio.dati");
+                                                                        File f = new File("C:\\Climate Monitoring\\CentroMonitoraggio.dati");
                                                                         Scanner scanft = new Scanner(f);
                                                                         if(Files.readAllBytes(f.toPath()).length == 0){
                                                                             System.out.println("Non e' presente nessun centro di monitoraggio");
@@ -1320,7 +1320,7 @@ public class ClimateMonitor {
                                                                         break;
                                                                     case 2:
                                                                         Scanner scan16 = new Scanner(System.in);
-                                                                        File f2 = new File("CentroMonitoraggio.dati");
+                                                                        File f2 = new File("C:\\Climate Monitoring\\CentroMonitoraggio.dati");
                                                                         Scanner scanft2 = new Scanner(f2);
                                                                         if(Files.readAllBytes(f2.toPath()).length == 0){
                                                                             System.out.println("Non e' presente nessun centro di monitoraggio");
@@ -1519,7 +1519,7 @@ public class ClimateMonitor {
                                                 
                                                 boolean esiste = parametri_climatici.esiste_area(geonameidarea);
                                                 String[] dati_data = datainformazioni.split("/");
-                                                File f = new File("."+File.separator+"Parametri"+File.separator+geonameidarea+"------"+dati_data[0]+dati_data[1]+dati_data[2]+".txt");
+                                                File f = new File("C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+geonameidarea+"------"+dati_data[0]+dati_data[1]+dati_data[2]+".txt");
                                                 boolean esiste2 = Files.exists(f.toPath());
                                                 
                                                 if(esiste2){
@@ -1841,7 +1841,7 @@ public class ClimateMonitor {
                                         String mod_data_parametri = scan8.nextLine();
                                         
                                         String[] dati_data2 = mod_data_parametri.split("/");
-                                        File f2 = new File("."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt");
+                                        File f2 = new File("C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt");
                                         if(!Files.exists(f2.toPath()) ){
                                             System.out.println("Non sono stati trovati dati sulle aree con Geoname ID " + g_mod_parametri + " nella data " + mod_data_parametri);
                                         }else{
@@ -2611,7 +2611,7 @@ public class ClimateMonitor {
                                                             if(mod_geoname.contains("-----")){
                                                                 System.out.println("Il nome non può contenere '-----'");
                                                             }else{
-                                                                File fe = new File("."+File.separator+"Parametri"+File.separator+mod_geoname+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt");
+                                                                File fe = new File("C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+mod_geoname+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt");
 
                                                                  if(fe.exists()){
                                                                      System.out.println("Esiste gia' un file con Geoname ID: " + mod_geoname + " e data " + dati_data2[0]+"/"+dati_data2[1]+"/"+dati_data2[2]);
@@ -2620,7 +2620,7 @@ public class ClimateMonitor {
                                                                      String vecchio = "."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt";
                                                                      parametri_climatici.modifica(n_gnid_f+"-------"+vecchio, "", 7);
                                                                      g_mod_parametri = mod_geoname;
-                                                                     f2 = new File("."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt");
+                                                                     f2 = new File("C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt");
                                                                      
                                                                  }
                                                             }
@@ -2650,7 +2650,7 @@ public class ClimateMonitor {
                                                        
                                                        String[] dati_data3 = mod_data.split("/");
                                                        
-                                                       File fe2 = new File("."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data3[0]+dati_data3[1]+dati_data3[2]+".txt");
+                                                       File fe2 = new File("C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data3[0]+dati_data3[1]+dati_data3[2]+".txt");
                                                        
                                                        if(fe2.exists()){
                                                            System.out.println("Esista gia' un file con Geoname ID: " + g_mod_parametri + " e data: " + mod_data);
@@ -2661,7 +2661,7 @@ public class ClimateMonitor {
                                                            dati_data2[0] = dati_data3[0];
                                                            dati_data2[1] = dati_data3[1];
                                                            dati_data2[2] = dati_data3[2];
-                                                           f2 = new File("."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt");
+                                                           f2 = new File("C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt");
                                                        }
                                                        
                                                        
@@ -2694,7 +2694,7 @@ public class ClimateMonitor {
                                             boolean ed_valido = false;
                                             
                                             do{
-                                                System.out.println("Inserisci la data a cui fanno riferimenti le informazioni che vuoi eliminare");
+                                                System.out.println("Inserisci la data a cui fanno riferimento le informazioni che vuoi eliminare");
                                                 ed = scan10.nextLine();
                                                 
                                                 if(parametri_climatici.check_data(ed)){
@@ -2705,7 +2705,7 @@ public class ClimateMonitor {
                                             
                                             String[] dati_data4 = ed.split("/");
                                             
-                                            File fe3 = new File("."+File.separator+"Parametri"+File.separator+eg+"------"+dati_data4[0]+dati_data4[1]+dati_data4[2]+".txt");
+                                            File fe3 = new File("C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+eg+"------"+dati_data4[0]+dati_data4[1]+dati_data4[2]+".txt");
                                             
                                             if(!fe3.exists()){
                                                 System.out.println("Non esiste nessun file con Geoname ID: " + eg + " e data: " + ed);
@@ -2794,7 +2794,7 @@ public class ClimateMonitor {
                     
                         if(cookie & !admin){
                             
-                            File c = new File("cookie.txt");
+                            File c = new File("C:\\Climate Monitoring\\cookie.txt");
                             String adminlog = Files.readString(c.toPath());
                             
                             if(adminlog.equals("admin")){
@@ -2835,12 +2835,12 @@ public class ClimateMonitor {
                                        case 1:
 
                                            String nuovo = "";
-                                               File centri = new File("CentroMonitoraggio.dati");
+                                               File centri = new File("C:\\Climate Monitoring\\CentroMonitoraggio.dati");
                                                if(Files.readAllBytes(centri.toPath()).length == 0){
                                                    System.out.println("Nel programma non e' inserito nessun centro di monitoraggio");
                                                    break;
                                                 }else{
-                                                    File t = new File("cookie.txt");
+                                                    File t = new File("C:\\Climate Monitoring\\cookie.txt");
                                                     Scanner scan9 = new Scanner(System.in);
                                                     String username = Files.readString(t.toPath());
 
@@ -2878,7 +2878,7 @@ public class ClimateMonitor {
 
                                                     if(esiste){
 
-                                                        File operatori = new File("OperatoriRegistrati.dati");
+                                                        File operatori = new File("C:\\Climate Monitoring\\OperatoriRegistrati.dati");
                                                         Scanner scanop = new Scanner(operatori);
 
                                                         while(scanop.hasNextLine()){
@@ -2925,9 +2925,9 @@ public class ClimateMonitor {
                                            break;
                                        case 2:
                                            boolean token_scelta46 = true;
-                                           File t2 = new File("cookie.txt");
+                                           File t2 = new File("C:\\Climate Monitoring\\cookie.txt");
                                            String username2 = Files.readString(t2.toPath());
-                                           File operatori = new File("OperatoriRegistrati.dati");
+                                           File operatori = new File("C:\\Climate Monitoring\\OperatoriRegistrati.dati");
                                            Scanner scanop = new Scanner(operatori);
                                            String riga_da_sostituire = "";
                                            while(scanop.hasNextLine()){
@@ -2952,7 +2952,7 @@ public class ClimateMonitor {
                                                 Scanner scan2 = new Scanner(System.in);
                                                 Scanner scan3 = new Scanner(System.in);
                                                 int sceltama = scan2.nextInt();
-                                                File operatori2 = new File("OperatoriRegistrati.dati");
+                                                File operatori2 = new File("C:\\Climate Monitoring\\OperatoriRegistrati.dati");
                                                 Scanner scanop2 = new Scanner(operatori2);
 
                                                 switch(sceltama){
@@ -3116,7 +3116,7 @@ public class ClimateMonitor {
                                                                 System.out.println("Il nome e l'indirizzo del nuovo centro non possono contenere i 5 trattini '-----");
                                                             }else{
 
-                                                                    File centri2 = new File("CentroMonitoraggio.dati");
+                                                                    File centri2 = new File("C:\\Climate Monitoring\\CentroMonitoraggio.dati");
                                                                 Scanner scancentri2 = new Scanner(centri2);
 
                                                                 //Vedere se esiste
@@ -3153,7 +3153,7 @@ public class ClimateMonitor {
                                            }while(token_scelta46);
                                            break;
                                        case 3:
-                                           File t = new File("cookie.txt");
+                                           File t = new File("C:\\Climate Monitoring\\cookie.txt");
 
                                            String username = Files.readString(t.toPath());
                                            account.gestione_account(username, 3);
@@ -3215,8 +3215,8 @@ public class ClimateMonitor {
                 case 7:
                     //Uscita dal programma
                     try{
-                        File t = new File("temp.txt");
-                        File t2 = new File("cookie.txt");
+                        File t = new File("C:\\Climate Monitoring\\temp.txt");
+                        File t2 = new File("C:\\Climate Monitoring\\cookie.txt");
                         Files.delete(t.toPath());
                         Files.delete(t2.toPath());
                     }catch(Exception e){
