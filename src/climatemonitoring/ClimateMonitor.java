@@ -8,8 +8,10 @@ Meneghini Laura 753448 Varese
 */
 package climatemonitoring;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -217,28 +219,46 @@ public class ClimateMonitor {
                         }while(!input_corretto);
                         
                         switch(Integer.valueOf(input_utente)){
+                            
+                            
+                            
                             case 1:
-                                System.out.println("Inserisci il Geoname ID dell'area di cui vuoi visualizzare le informazioni");
-                                String geonameid = scan4.nextLine();
                                 
-                                
-                                if(!parametri_climatici.esiste_area(geonameid)){
-                                    System.out.println("Il Geoname ID inserito non appartiene a nessuna area!");
-                                    break;
+                                File rpc = new File("C:\\Climate Monitoring\\ParametriClimatici.dati");
+                                if(Files.readAllBytes(rpc.toPath()).length < 1){
+                                    System.out.println("Non sono presenti dati");
+                                }else{
+                                    Scanner scan_rpc = new Scanner(rpc);
+                                    System.out.println("Dati presenti:");
+                                    System.out.println("Inserito dal centro:\tGeonameID\tData:");
+                                    while(scan_rpc.hasNextLine()){
+                                        String riga = scan_rpc.nextLine();
+                                        System.out.println(riga);
+                                    }
+                                    System.out.println("Inserisci il Geoname ID dell'area di cui vuoi visualizzare le informazioni");
+                                    String geonameid = scan4.nextLine();
+
+
+                                    if(!parametri_climatici.esiste_area(geonameid)){
+                                        System.out.println("Il Geoname ID inserito non appartiene a nessuna area!");
+                                        break;
+                                    }
+
+
+                                    boolean data_valida = false;
+                                    Scanner scan5 = new Scanner(System.in);
+                                    String data;
+                                    do{
+                                        System.out.println("Inserisci la data in cui sono state registrate le informazioni");
+                                        data = scan5.nextLine();
+                                        data_valida = parametri_climatici.check_data(data);
+
+                                    }while(!data_valida);
+
+                                    parametri_climatici.visualizzaAreaGeografica(geonameid, data);
                                 }
                                 
                                 
-                                boolean data_valida = false;
-                                Scanner scan5 = new Scanner(System.in);
-                                String data;
-                                do{
-                                    System.out.println("Inserisci la data in cui sono state registrate le informazioni");
-                                    data = scan5.nextLine();
-                                    data_valida = parametri_climatici.check_data(data);
-                                    
-                                }while(!data_valida);
-                                
-                                parametri_climatici.visualizzaAreaGeografica(geonameid, data);
                                 
                                 break;
                             case 2:
@@ -1930,7 +1950,7 @@ public class ClimateMonitor {
                                                                            System.out.println("Devi inserire un numero positivo!");
                                                                        }else{
                                                                            String nuovo_vento = n_vento+"\t"+sub[1]+"\t"+sub[2];
-                                                                           parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", 0);
+                                                                           parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", 0);
                                                                            sub[0] = n_vento;
                                                                        }
                                                                    }
@@ -1954,7 +1974,7 @@ public class ClimateMonitor {
                                                                            System.out.println("Devi inserire un numero positivo compreso tra 1 e 5");
                                                                        }else{
                                                                            String nuovo_vento = sub[0]+"\t"+n_vento_pun+"\t"+sub[2];
-                                                                           parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", 0);
+                                                                           parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", 0);
                                                                            sub[1] = n_vento_pun;
                                                                        }
                                                                    }
@@ -1973,7 +1993,7 @@ public class ClimateMonitor {
                                                                 
                                                                 }else{
                                                                    String nuovo_vento = sub[0]+"\t"+sub[1]+"\t"+n_vento_com;
-                                                                   parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", 0);
+                                                                   parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", 0);
                                                                    sub[2] = n_vento_com;
                                                                 }
                                                                
@@ -2032,7 +2052,7 @@ public class ClimateMonitor {
                                                                            System.out.println("Devi inserire un numero positivo compreso tra 0 e 100");
                                                                        }else{
                                                                            String nuovo_vento = n_umi+"\t"+sub2[1]+"\t"+sub2[2];
-                                                                           parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                           parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                            sub2[0] = n_umi;
                                                                        }
                                                                    }
@@ -2056,7 +2076,7 @@ public class ClimateMonitor {
                                                                            System.out.println("Devi inserire un numero positivo compreso tra 1 e 5");
                                                                        }else{
                                                                            String nuovo_vento = sub2[0]+"\t"+n_vento_pun+"\t"+sub2[2];
-                                                                           parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                           parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                            sub2[1] = n_vento_pun;
                                                                        }
                                                                    }
@@ -2075,7 +2095,7 @@ public class ClimateMonitor {
                                                                 
                                                                 }else{
                                                                    String nuovo_vento = sub2[0]+"\t"+sub2[1]+"\t"+n_umi_com;
-                                                                   parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                   parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                    sub2[2] = n_umi_com;
                                                                 }
                                                                
@@ -2135,7 +2155,7 @@ public class ClimateMonitor {
                                                                            System.out.println("Devi inserire un numero positivo!");
                                                                        }else{
                                                                            String nuovo_vento = n_press+"\t"+sub3[1]+"\t"+sub3[2];
-                                                                           parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                           parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                            sub3[0] = n_press;
                                                                        }
                                                                    }
@@ -2159,7 +2179,7 @@ public class ClimateMonitor {
                                                                            System.out.println("Devi inserire un numero positivo compreso tra 1 e 5");
                                                                        }else{
                                                                            String nuovo_vento = sub3[0]+"\t"+n_press_pun+"\t"+sub3[2];
-                                                                           parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                           parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                            sub3[1] = n_press_pun;
                                                                        }
                                                                    }
@@ -2178,7 +2198,7 @@ public class ClimateMonitor {
                                                                 
                                                                 }else{
                                                                    String nuovo_vento = sub3[0]+"\t"+sub3[1]+"\t"+n_press_com;
-                                                                   parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                   parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                    sub3[2] = n_press_com;
                                                                 }
                                                                
@@ -2235,7 +2255,7 @@ public class ClimateMonitor {
                                                                        System.out.println("Devi inserire un numero!");
                                                                    }else{                            
                                                                            String nuovo_vento = n_temp+"\t"+sub4[1]+"\t"+sub4[2];
-                                                                           parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                           parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                            sub4[0] = n_temp;
                                                                    }
                                                                 }
@@ -2258,7 +2278,7 @@ public class ClimateMonitor {
                                                                            System.out.println("Devi inserire un numero positivo compreso tra 1 e 5");
                                                                        }else{
                                                                            String nuovo_vento = sub4[0]+"\t"+n_press_pun+"\t"+sub4[2];
-                                                                           parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                           parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                            sub4[1] = n_press_pun;
                                                                        }
                                                                    }
@@ -2277,7 +2297,7 @@ public class ClimateMonitor {
                                                                 
                                                                 }else{
                                                                    String nuovo_vento = sub4[0]+"\t"+sub4[1]+"\t"+n_press_com;
-                                                                   parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                   parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                    sub4[2] = n_press_com;
                                                                 }
                                                                
@@ -2334,7 +2354,7 @@ public class ClimateMonitor {
                                                                            System.out.println("Devi inserire un numero positivo!");
                                                                        }else{
                                                                           String nuovo_vento = n_temp+"\t"+sub5[1]+"\t"+sub5[2];
-                                                                          parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                          parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                           sub5[0] = n_temp;
                                                                        }
                                                                    }
@@ -2359,7 +2379,7 @@ public class ClimateMonitor {
                                                                            System.out.println("Devi inserire un numero positivo compreso tra 1 e 5");
                                                                        }else{
                                                                            String nuovo_vento = sub5[0]+"\t"+n_press_pun+"\t"+sub5[2];
-                                                                           parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                           parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                            sub5[1] = n_press_pun;
                                                                        }
                                                                    }
@@ -2378,7 +2398,7 @@ public class ClimateMonitor {
                                                                 
                                                                 }else{
                                                                    String nuovo_vento = sub5[0]+"\t"+sub5[1]+"\t"+n_press_com;
-                                                                   parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                   parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                    sub5[2] = n_press_com;
                                                                 }
                                                                
@@ -2436,7 +2456,7 @@ public class ClimateMonitor {
                                                                            System.out.println("Devi inserire un numero positivo!");
                                                                        }else{
                                                                            String nuovo_vento = n_temp+"\t"+sub6[1]+"\t"+sub6[2];
-                                                                           parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                           parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                            sub6[0] = n_temp;
                                                                        }
                                                                    }
@@ -2461,7 +2481,7 @@ public class ClimateMonitor {
                                                                            System.out.println("Devi inserire un numero positivo compreso tra 1 e 5");
                                                                        }else{
                                                                            String nuovo_vento = sub6[0]+"\t"+n_press_pun+"\t"+sub6[2];
-                                                                           parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                           parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                            sub6[1] = n_press_pun;
                                                                        }
                                                                    }
@@ -2480,7 +2500,7 @@ public class ClimateMonitor {
                                                                 
                                                                 }else{
                                                                    String nuovo_vento = sub6[0]+"\t"+sub6[1]+"\t"+n_press_com;
-                                                                   parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                   parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                    sub6[2] = n_press_com;
                                                                 }
                                                                
@@ -2538,7 +2558,7 @@ public class ClimateMonitor {
                                                                            System.out.println("Devi inserire un numero positivo!");
                                                                        }else{
                                                                             String nuovo_vento = n_temp+"\t"+sub7[1]+"\t"+sub7[2];
-                                                                           parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                           parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                            sub7[0] = n_temp;
                                                                        }
                                                                    }
@@ -2562,7 +2582,7 @@ public class ClimateMonitor {
                                                                            System.out.println("Devi inserire un numero positivo compreso tra 1 e 5");
                                                                        }else{
                                                                            String nuovo_vento = sub7[0]+"\t"+n_press_pun+"\t"+sub7[2];
-                                                                           parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                           parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                            sub7[1] = n_press_pun;
                                                                        }
                                                                    }
@@ -2581,7 +2601,7 @@ public class ClimateMonitor {
                                                                 
                                                                 }else{
                                                                    String nuovo_vento = sub7[0]+"\t"+sub7[1]+"\t"+n_press_com;
-                                                                   parametri_climatici.modifica(nuovo_vento,"."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
+                                                                   parametri_climatici.modifica(nuovo_vento,"C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt", Integer.valueOf(input_mod_p)-1);
                                                                    sub7[2] = n_press_com;
                                                                 }
                                                                
@@ -2616,11 +2636,65 @@ public class ClimateMonitor {
                                                                  if(fe.exists()){
                                                                      System.out.println("Esiste gia' un file con Geoname ID: " + mod_geoname + " e data " + dati_data2[0]+"/"+dati_data2[1]+"/"+dati_data2[2]);
                                                                  }else{
-                                                                     String n_gnid_f = "."+File.separator+"Parametri"+File.separator+mod_geoname+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt";
-                                                                     String vecchio = "."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt";
+                                                                     String n_gnid_f = "C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+mod_geoname+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt";
+                                                                     String vecchio = "C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt";
+                                                                     File rpc = new File("C:\\Climate Monitoring"+File.separator+"ParametriClimatici.dati");
+                                                                     File temp_ngid = new File("C:\\Climate Monitoring"+File.separator+"temp.txt");
+                                                                     BufferedWriter bf = new BufferedWriter(new FileWriter(temp_ngid));
+                                                                     Scanner scan_rpc = new Scanner(rpc);
+                                                                     File cookie2 = new File("C:\\Climate Monitoring"+File.separator+"cookie.txt");
+                                                                     String utente = Files.readString(cookie2.toPath());
+                                                                     String centro = "";
+                                                                    File or = new File("C:\\Climate Monitoring"+File.separator+"OperatoriRegistrati.dati");
+                                                                    Scanner scanor = new Scanner(or);
+                                                                    while(scanor.hasNextLine()){
+                                                                        String riga = scanor.nextLine();
+                                                                        String[] dati_riga = riga.split("\t");
+                                                                        if(dati_riga[3].equals(utente)){
+                                                                            centro = dati_riga[5];
+                                                                            break;
+                                                                        }
+                                                                    }
+                                                                    scanor.close();
+                                                                     
+                                                                     while(scan_rpc.hasNextLine()){
+                                                                         String riga = scan_rpc.nextLine();
+                                                                         String[] dati_riga = riga.split("\t");
+                                                                         if(dati_riga[1].equals(g_mod_parametri)){
+                                                                             if(!scan_rpc.hasNextLine()){
+                                                                                 bf.write(centro+"\t"+mod_geoname+"\t"+dati_riga[2]);
+                                                                             }else{
+                                                                                 bf.write(centro+"\t"+mod_geoname+"\t"+dati_riga[2]+"\n");
+                                                                             }
+                                                                         }else{
+                                                                             if(!scan_rpc.hasNextLine()){
+                                                                                 bf.write(riga);
+                                                                             }else{
+                                                                                 bf.write(riga+"\n");
+                                                                             }
+                                                                         }
+                                                                     }
+                                                                     bf.close();
+                                                                     scan_rpc.close();
+                                                                     
+                                                                     BufferedWriter bf_rpc = new BufferedWriter(new FileWriter(rpc));
+                                                                        Scanner scan_temp = new Scanner(temp_ngid);
+                                                                        while(scan_temp.hasNextLine()){
+                                                                            String riga = scan_temp.nextLine();
+                                                                            if(scan_temp.hasNextLine()){
+                                                                                bf_rpc.write(riga+"\n");
+                                                                            }else{
+                                                                                bf_rpc.write(riga);
+                                                                            }
+                                                                        }
+                                                                        bf_rpc.close();
+                                                                     scan_temp.close();
+                                                                     
                                                                      parametri_climatici.modifica(n_gnid_f+"-------"+vecchio, "", 7);
                                                                      g_mod_parametri = mod_geoname;
                                                                      f2 = new File("C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt");
+                                                                     
+                                                                     
                                                                      
                                                                  }
                                                             }
@@ -2655,14 +2729,70 @@ public class ClimateMonitor {
                                                        if(fe2.exists()){
                                                            System.out.println("Esista gia' un file con Geoname ID: " + g_mod_parametri + " e data: " + mod_data);
                                                        }else{
-                                                           String n_data_f = "."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data3[0]+dati_data3[1]+dati_data3[2]+".txt";
-                                                           String vecchio2 = "."+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt";
+                                                           String n_data_f = "C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data3[0]+dati_data3[1]+dati_data3[2]+".txt";
+                                                           String vecchio2 = "C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt";
                                                            parametri_climatici.modifica(n_data_f+"-------"+vecchio2, "", 8);
-                                                           dati_data2[0] = dati_data3[0];
-                                                           dati_data2[1] = dati_data3[1];
-                                                           dati_data2[2] = dati_data3[2];
+                                                           
                                                            f2 = new File("C:\\Climate Monitoring"+File.separator+"Parametri"+File.separator+g_mod_parametri+"------"+dati_data2[0]+dati_data2[1]+dati_data2[2]+".txt");
+                                                           
+                                                           File rpc = new File("C:\\Climate Monitoring"+File.separator+"ParametriClimatici.dati");
+                                                                     File temp_ngid = new File("C:\\Climate Monitoring"+File.separator+"temp.txt");
+                                                                     BufferedWriter bf = new BufferedWriter(new FileWriter(temp_ngid));
+                                                                     Scanner scan_rpc = new Scanner(rpc);
+                                                                     File cookie2 = new File("C:\\Climate Monitoring"+File.separator+"cookie.txt");
+                                                                     String utente = Files.readString(cookie2.toPath());
+                                                                     String centro = "";
+                                                                    File or = new File("C:\\Climate Monitoring"+File.separator+"OperatoriRegistrati.dati");
+                                                                    Scanner scanor = new Scanner(or);
+                                                                    while(scanor.hasNextLine()){
+                                                                        String riga = scanor.nextLine();
+                                                                        String[] dati_riga = riga.split("\t");
+                                                                        if(dati_riga[3].equals(utente)){
+                                                                            centro = dati_riga[5];
+                                                                            break;
+                                                                        }
+                                                                    }
+                                                                    scanor.close();
+                                                                     
+                                                                     while(scan_rpc.hasNextLine()){
+                                                                         String riga = scan_rpc.nextLine();
+                                                                         String[] dati_riga = riga.split("\t");
+                                                                         if(dati_riga[2].equals(dati_data2[0]+"/"+dati_data2[1]+"/"+dati_data2[2])){
+                                                                             if(!scan_rpc.hasNextLine()){
+                                                                                 bf.write(centro+"\t"+dati_riga[1]+"\t"+mod_data);
+                                                                             }else{
+                                                                                 bf.write(centro+"\t"+dati_riga[1]+"\t"+mod_data+"\n");
+                                                                             }
+                                                                         }else{
+                                                                             if(!scan_rpc.hasNextLine()){
+                                                                                 bf.write(riga);
+                                                                             }else{
+                                                                                 bf.write(riga+"\n");
+                                                                             }
+                                                                         }
+                                                                     }
+                                                                     bf.close();
+                                                                     scan_rpc.close();
+                                                                     
+                                                                     BufferedWriter bf_rpc = new BufferedWriter(new FileWriter(rpc));
+                                                                        Scanner scan_temp = new Scanner(temp_ngid);
+                                                                        while(scan_temp.hasNextLine()){
+                                                                            String riga = scan_temp.nextLine();
+                                                                            if(scan_temp.hasNextLine()){
+                                                                                bf_rpc.write(riga+"\n");
+                                                                            }else{
+                                                                                bf_rpc.write(riga);
+                                                                            }
+                                                                        }
+                                                                        bf_rpc.close();
+                                                                     scan_temp.close();
+                                                                     dati_data2[0] = dati_data3[0];
+                                                                    dati_data2[1] = dati_data3[1];
+                                                                    dati_data2[2] = dati_data3[2];
+                                                           
                                                        }
+                                                       
+                                                       
                                                        
                                                        
                                                        
@@ -2712,7 +2842,39 @@ public class ClimateMonitor {
                                             }else{
                                                 Files.delete(fe3.toPath());
                                                 System.out.println("Dati eliminati con successo!");
+                                                File temp_elimina = new File("C:\\Climate Monitoring"+File.separator+"temp.txt");
+                                                Scanner scant = new Scanner(temp_elimina);
+                                                File rpc = new File("C:\\Climate Monitoring"+File.separator+"ParametriClimatici.dati");
+                                                Scanner scan_rpc_e = new Scanner(rpc);
+                                                BufferedWriter temp_e = new BufferedWriter(new FileWriter(temp_elimina));
+                                                while(scan_rpc_e.hasNextLine()){
+                                                    String riga = scan_rpc_e.nextLine();
+                                                    String[] dati_riga = riga.split("\t");
+                                                    if(!dati_riga[1].equals(eg) & dati_riga[2].equals(ed)){
+                                                        if(scan_rpc_e.hasNextLine()){
+                                                            temp_e.write(riga+"\n");
+                                                        }else{
+                                                            temp_e.write(riga);
+                                                        }
+                                                        
+                                                    }
+                                                }
+                                                temp_e.close();
+                                                scan_rpc_e.close();
+                                                BufferedWriter rpce = new BufferedWriter(new FileWriter(rpc));
+                                                while(scant.hasNextLine()){
+                                                    String riga = scant.nextLine();
+                                                    if(!scant.hasNextLine()){
+                                                        rpce.write(riga+"\n");
+                                                    }else{
+                                                       rpce.write(riga); 
+                                                    }
+                                                    
+                                                }
+                                                rpce.close();
                                             }
+                                            
+                                            
                                             
                                             break;
                                         
