@@ -587,7 +587,7 @@ public class Account {
                 //System.out.println(credenziali.length);
                 if(credenziali[3].equals(userid) & credenziali[4].equals(password)){
                     esiste = true;
-                    BufferedWriter cookie = new BufferedWriter(new FileWriter("cookie.txt"));
+                    BufferedWriter cookie = new BufferedWriter(new FileWriter("C:\\Climate Monitoring"+File.separator+"cookie.txt"));
                     cookie.write(userid);
                     cookie.close();
                     System.out.println("Accesso effettuato, benvenuto/a " + userid);
@@ -716,7 +716,7 @@ public class Account {
                 String[] dati = data.split("\t");
                 if(data.contains(this.getNome_e_cognome()+"\t"+this.getCodice_fiscale()+"\t"+this.getEmail()+"\t"+this.getUserid()+"\t"+this.getPassword())){
                     System.out.println("Account esistente login in corso");
-                    BufferedWriter cookie = new BufferedWriter(new FileWriter("cookie.txt"));
+                    BufferedWriter cookie = new BufferedWriter(new FileWriter("C:\\Climate Monitoring"+File.separator+"cookie.txt"));
                     cookie.write(userid);
                     cookie.close();
                     return true;//this.login(this.getUserid(), this.getPassword());
@@ -768,7 +768,7 @@ public class Account {
                 }
                 writer.close();
                 System.out.println("Account creato correttamente con centro di monitoraggio");
-                BufferedWriter cookie = new BufferedWriter(new FileWriter("cookie.txt"));
+                BufferedWriter cookie = new BufferedWriter(new FileWriter("C:\\Climate Monitoring"+File.separator+"cookie.txt"));
                 cookie.write(userid);
                 cookie.close();
                 
@@ -779,7 +779,7 @@ public class Account {
                 writer.close();
                 System.out.println("Account creato correttamente, login in corso");
                 System.out.println("Il centro di monitoraggio inserito non e' presente nel programma, al tuo account non e' associato alcun centro di monitoraggio");
-                BufferedWriter cookie = new BufferedWriter(new FileWriter("cookie.txt"));
+                BufferedWriter cookie = new BufferedWriter(new FileWriter("C:\\Climate Monitoring"+File.separator+"cookie.txt"));
                 cookie.write(userid);
                 cookie.close();*/
                 System.out.println("Il centro di monitoraggio inserito non e' presente nel programma, registrazione fallita");
